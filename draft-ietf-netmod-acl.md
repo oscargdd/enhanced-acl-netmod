@@ -40,6 +40,7 @@ the limitations of the ACL model as initially defined in RFC 8519.
 --- middle
 
 # Introduction
+
 {{!RFC8519}} defines Access control lists (ACLs) as a
 user-ordered set of filtering rules. The model targets the
 configuration of the filtering behaviour of a device. However, the
@@ -85,9 +86,7 @@ messages triggered by  these tools is valuable from a network operation standpoi
 
 # Terminology
 
-The keywords **MUST**, **MUST NOT**, **REQUIRED**, **SHALL**, **SHALL NOT**, **SHOULD**,
-**SHOULD NOT**, **RECOMMENDED**, **MAY**, and **OPTIONAL**, when they appear in this
-document, are to be interpreted as described in {{!RFC2119}}.
+{::boilerplate bcp14-tagged}
 
 The terminology for describing YANG modules is defined in {{!RFC7950}}.
 The meaning of the symbols in the tree diagrams is defined in
