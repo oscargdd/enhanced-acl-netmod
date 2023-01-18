@@ -1,0 +1,84 @@
+
+module: ietf-acl-enh
+  augment /acl:acls:
+    +--rw defined-sets
+       +--rw ipv4-prefix-sets
+       |  +--rw prefix-set* [name]
+       |     +--rw name           string
+       |     +--rw description?   string
+       |     +--rw prefix*        inet:ipv4-prefix
+       +--rw ipv6-prefix-sets
+       |  +--rw prefix-set* [name]
+       |     +--rw name           string
+       |     +--rw description?   string
+       |     +--rw prefix*        inet:ipv6-prefix
+       +--rw port-sets
+       |  +--rw port-set* [name]
+       |     +--rw name    string
+       |     +--rw port* [id]
+       |        +--rw id                              string
+       |        +--rw (port)?
+       |           +--:(port-range-or-operator)
+       |              +--rw port-range-or-operator
+       |                 +--rw (port-range-or-operator)?
+       |                    +--:(range)
+       |                    |  +--rw lower-port    inet:port-number
+       |                    |  +--rw upper-port    inet:port-number
+       |                    +--:(operator)
+       |                       +--rw operator?     operator
+       |                       +--rw port          inet:port-number
+       +--rw protocol-sets
+       |  +--rw protocol-set* [name]
+       |     +--rw name        string
+       |     +--rw protocol*   union
+       +--rw icmp-type-sets
+          +--rw icmp-type-set* [name]
+             +--rw name     string
+             +--rw types* [type]
+                +--rw type              uint8
+                +--rw code?             uint8
+                +--rw rest-of-header?   binary
+  augment /acl:acls/acl:acl/acl:aces/acl:ace/acl:matches:
+    +--rw (payload)?
+       +--:(prefix-pattern)
+          +--rw prefix-pattern {match-on-payload}?
+             +--rw offset?       identityref
+             +--rw offset-end?   uint64
+             +--rw operator?     operator
+             +--rw prefix?       binary
+  augment /acl:acls/acl:acl/acl:aces/acl:ace/acl:matches/acl:l3
+            /acl:ipv4:
+    +--rw ipv4-fragment
+    |  +--rw operator?   operator
+    |  +--rw type?       fragment-type
+    +--rw source-ipv4-prefix-list?        leafref
+    +--rw destination-ipv4-prefix-list?   leafref
+    +--rw next-header-set?                leafref
+  augment /acl:acls/acl:acl/acl:aces/acl:ace/acl:matches/acl:l3
+            /acl:ipv6:
+    +--rw ipv6-fragment
+    |  +--rw operator?   operator
+    |  +--rw type?       fragment-type
+    +--rw source-ipv6-prefix-list?        leafref
+    +--rw destination-ipv6-prefix-list?   leafref
+    +--rw protocol-set?                   leafref
+  augment /acl:acls/acl:acl/acl:aces/acl:ace/acl:matches/acl:l4
+            /acl:tcp:
+    +--rw flags-bitmask
+    |  +--rw operator?   operator
+    |  +--rw bitmask?    uint16
+    +--rw source-tcp-port-set?
+    |       -> ../../../../../defined-sets/port-sets/port-set/name
+    +--rw destination-tcp-port-set?
+            -> ../../../../../defined-sets/port-sets/port-set/name
+  augment /acl:acls/acl:acl/acl:aces/acl:ace/acl:matches/acl:l4
+            /acl:udp:
+    +--rw source-udp-port-set?
+    |       -> ../../../../../defined-sets/port-sets/port-set/name
+    +--rw destination-udp-port-set?
+            -> ../../../../../defined-sets/port-sets/port-set/name
+  augment /acl:acls/acl:acl/acl:aces/acl:ace/acl:matches/acl:l4
+            /acl:icmp:
+    +--rw icmp-set?   leafref
+  augment /acl:acls/acl:acl/acl:aces/acl:ace/acl:actions:
+    +--rw rate-limit?   decimal64
