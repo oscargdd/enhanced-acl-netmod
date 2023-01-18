@@ -374,7 +374,7 @@ requirements, e.g.:
 
 ## Enhanced ACL
 
-{{enh-acl}} shows the full enhanced ACL tree:
+{{enh-acl-tree}} shows the full enhanced ACL tree:
 
 ~~~ ascii-art
 {::include ./yang/enh-tree.txt}
