@@ -374,94 +374,10 @@ requirements, e.g.:
 
 ## Enhanced ACL
 
+{{enh-acl}} shows the full enhanced ACL tree:
 
 ~~~ ascii-art
-
-module: ietf-acl-enh
-  augment /ietf-acl:acls/ietf-acl:acl:
-    +--rw defined-sets
-       +--rw ipv4-prefix-sets
-       |  +--rw prefix-set* [name]
-       |     +--rw name           string
-       |     +--rw description?   string
-       |     +--rw prefix*        inet:ipv4-prefix
-       +--rw ipv6-prefix-sets
-       |  +--rw prefix-set* [name]
-       |     +--rw name           string
-       |     +--rw description?   string
-       |     +--rw prefix*        inet:ipv6-prefix
-       +--rw port-sets
-       |  +--rw port-set* [name]
-       |     +--rw name    string
-       |     +--rw port* [id]
-       |        +--rw id                              string
-       |        +--rw (port)?
-       |           +--:(port-range-or-operator)
-       |              +--rw port-range-or-operator
-       |                 +--rw (port-range-or-operator)?
-       |                    +--:(range)
-       |                    |  +--rw lower-port    inet:port-number
-       |                    |  +--rw upper-port    inet:port-number
-       |                    +--:(operator)
-       |                       +--rw operator?     operator
-       |                       +--rw port          inet:port-number
-       +--rw protocol-sets
-       |  +--rw protocol-set* [name]
-       |     +--rw name        string
-       |     +--rw protocol*   union
-       +--rw icmp-type-sets
-          +--rw icmp-type-set* [name]
-             +--rw name     string
-             +--rw types* [type]
-                +--rw type              uint8
-                +--rw code?             uint8
-                +--rw rest-of-header?   binary
-  augment /ietf-acl:acls/ietf-acl:acl/ietf-acl:aces/ietf-acl:ace
-            /ietf-acl:matches:
-    +--rw (payload)?
-       +--:(prefix-pattern)
-          +--rw prefix-pattern {match-on-payload}?
-             +--rw offset?       identityref
-             +--rw offset-end?   uint64
-             +--rw operator?     operator
-             +--rw prefix?       binary
-  augment /ietf-acl:acls/ietf-acl:acl/ietf-acl:aces/ietf-acl:ace
-            /ietf-acl:matches/ietf-acl:l3/ietf-acl:ipv4:
-    +--rw ipv4-fragment
-    |  +--rw operator?   operator
-    |  +--rw type?       fragment-type
-    +--rw source-ipv4-prefix-list?        leafref
-    +--rw destination-ipv4-prefix-list?   leafref
-    +--rw next-header-set?                leafref
-  augment /ietf-acl:acls/ietf-acl:acl/ietf-acl:aces/ietf-acl:ace
-            /ietf-acl:matches/ietf-acl:l3/ietf-acl:ipv6:
-    +--rw ipv6-fragment
-    |  +--rw operator?   operator
-    |  +--rw type?       fragment-type
-    +--rw source-ipv6-prefix-list?        leafref
-    +--rw destination-ipv6-prefix-list?   leafref
-    +--rw protocol-set?                   leafref
-  augment /ietf-acl:acls/ietf-acl:acl/ietf-acl:aces/ietf-acl:ace
-            /ietf-acl:matches/ietf-acl:l4/ietf-acl:tcp:
-    +--rw flags-bitmask
-    |  +--rw operator?   operator
-    |  +--rw bitmask?    uint16
-    +--rw source-tcp-port-set?
-    |       -> ../../../../defined-sets/port-sets/port-set/name
-    +--rw destination-tcp-port-set?
-            -> ../../../../defined-sets/port-sets/port-set/name
-  augment /ietf-acl:acls/ietf-acl:acl/ietf-acl:aces/ietf-acl:ace
-            /ietf-acl:matches/ietf-acl:l4/ietf-acl:udp:
-    +--rw source-udp-port-set?
-    |       -> ../../../../defined-sets/port-sets/port-set/name
-    +--rw destination-udp-port-set?
-            -> ../../../../defined-sets/port-sets/port-set/name
-  augment /ietf-acl:acls/ietf-acl:acl/ietf-acl:aces/ietf-acl:ace
-            /ietf-acl:matches/ietf-acl:l4/ietf-acl:icmp:
-    +--rw icmp-set?   leafref
-  augment /ietf-acl:acls/ietf-acl:acl/ietf-acl:aces/ietf-acl:ace
-            /ietf-acl:actions:
-    +--rw rate-limit?   decimal64
+{::include ./yang/enh-tree.txt}
 ~~~
 {: #enh-acl-tree title="Enhanced ACL tree"}
 
