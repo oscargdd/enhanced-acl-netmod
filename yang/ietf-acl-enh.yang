@@ -380,21 +380,21 @@ module ietf-acl-enh {
     }
     leaf source-ipv4-prefix-list {
       type leafref {
-        path "../../../../defined-sets/ipv4-prefix-sets/prefix-set/name";
+        path "../../../../../defined-sets/ipv4-prefix-sets/prefix-set/name";
       }
       description
         "A reference to a prefix list to match the source address.";
     }
     leaf destination-ipv4-prefix-list {
       type leafref {
-        path "../../../../defined-sets/ipv4-prefix-sets/prefix-set/name";
+        path "../../../../../defined-sets/ipv4-prefix-sets/prefix-set/name";
       }
       description
         "A reference to a prefix list to match the destination address.";
     }
     leaf next-header-set {
       type leafref {
-        path "../../../../defined-sets/protocol-sets/protocol-set/name";
+        path "../../../../../defined-sets/protocol-sets/protocol-set/name";
       }
       description
         "A reference to a protocol set to match the next-header field.";
@@ -412,21 +412,21 @@ module ietf-acl-enh {
     }
     leaf source-ipv6-prefix-list {
       type leafref {
-        path "../../../../defined-sets/ipv6-prefix-sets/prefix-set/name";
+        path "../../../../../defined-sets/ipv6-prefix-sets/prefix-set/name";
       }
       description
         "A reference to a prefix list to match the source address.";
     }
     leaf destination-ipv6-prefix-list {
       type leafref {
-        path "../../../../defined-sets/ipv6-prefix-sets/prefix-set/name";
+        path "../../../../../defined-sets/ipv6-prefix-sets/prefix-set/name";
       }
       description
         "A reference to a prefix list to match the destination address.";
     }
     leaf protocol-set {
       type leafref {
-        path "../../../../defined-sets/protocol-sets/protocol-set/name";
+        path "../../../../../defined-sets/protocol-sets/protocol-set/name";
       }
       description
         "A reference to a protocol set to match the protocol field.";
@@ -444,14 +444,14 @@ module ietf-acl-enh {
     }
     leaf source-tcp-port-set {
       type leafref {
-        path "../../../../defined-sets/port-sets/port-set/name";
+        path "../../../../../defined-sets/port-sets/port-set/name";
       }
       description
         "A reference to a port set to match the source port.";
     }
     leaf destination-tcp-port-set {
       type leafref {
-        path "../../../../defined-sets/port-sets/port-set/name";
+        path "../../../../../defined-sets/port-sets/port-set/name";
       }
       description
         "A reference to a port set to match the destination port.";
@@ -464,14 +464,14 @@ module ietf-acl-enh {
       "Handle UDP port sets.";
     leaf source-udp-port-set {
       type leafref {
-        path "../../../../defined-sets/port-sets/port-set/name";
+        path "../../../../../defined-sets/port-sets/port-set/name";
       }
       description
         "A reference to a port set to match the source port.";
     }
     leaf destination-udp-port-set {
       type leafref {
-        path "../../../../defined-sets/port-sets/port-set/name";
+        path "../../../../../defined-sets/port-sets/port-set/name";
       }
       description
         "A reference to a port set to match the destination port.";
@@ -484,7 +484,7 @@ module ietf-acl-enh {
       "Handle ICMP type sets.";
     leaf icmp-set {
       type leafref {
-        path "../../../../defined-sets/icmp-type-sets/icmp-type-set/name";
+        path "../../../../../defined-sets/icmp-type-sets/icmp-type-set/name";
       }
       description
         "A reference to an ICMP type set to match the ICMP type field.";
