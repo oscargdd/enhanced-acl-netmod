@@ -2,10 +2,10 @@
 
 This is the working area for the IETF [NETMOD Working Group](https://datatracker.ietf.org/wg/netmod/documents/) Internet-Draft, "Extensions to the Access Control Lists (ACLs) YANG Model".
 
-* [Editor's Copy](https://boucadair.github.io/enhanced-acl-netmod/#go.draft-ietf-netmod-acl.html)
-* [Datatracker Page](https://datatracker.ietf.org/doc/draft-ietf-netmod-acl)
-* [Working Group Draft](https://datatracker.ietf.org/doc/html/draft-ietf-netmod-acl)
-* [Compare Editor's Copy to Working Group Draft](https://boucadair.github.io/enhanced-acl-netmod/#go.draft-ietf-netmod-acl.diff)
+* [Editor's Copy](https://boucadair.github.io/enhanced-acl-netmod/#go.draft-ietf-netmod-acl-extensions.html)
+* [Datatracker Page](https://datatracker.ietf.org/doc/draft-ietf-netmod-acl-extensions)
+* [Working Group Draft](https://datatracker.ietf.org/doc/html/draft-ietf-netmod-acl-extensions)
+* [Compare Editor's Copy to Working Group Draft](https://boucadair.github.io/enhanced-acl-netmod/#go.draft-ietf-netmod-acl-extensions.diff)
 
 
 ## Contributing
