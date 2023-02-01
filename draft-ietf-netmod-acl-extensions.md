@@ -30,7 +30,7 @@ author:
     email: mohamed.boucadair@orange.com
  -
     fullname: Qin Wu
-    organization: Huaweim
+    organization: Huawei
     email: bill.wu@huawei.com
 
 --- abstract
