@@ -413,7 +413,7 @@ Clients that support both 'flags-bitmask' and 'flags' matching fields MUST NOT s
              "name": "null-attack",
              "matches": {
                "tcp": {
-                 "flags-bitmask": {
+                 "acl-enh:flags-bitmask": {
                    "operator": "not any",
                    "bitmask": 4095
                  }
@@ -456,7 +456,7 @@ packets.  The following ACEs are defined (in this order):
                  "name": "drop-all-fragments",
                  "matches": {
                    "ipv4": {
-                     "ipv4-fragment": {
+                     "acl-enh:ipv4-fragment": {
                        "operator": "match",
                        "type": "isf"
                      }
@@ -511,7 +511,7 @@ packets.  The following ACEs are defined (in this order):
                  "name": "drop-all-fragments",
                  "matches": {
                    "ipv6": {
-                     "ipv6-fragment": {
+                     "acl-enh:ipv6-fragment": {
                        "operator": "match",
                        "type": "isf"
                      }
@@ -563,7 +563,7 @@ In order to support rate-limiting (see {{ps-rate}}), a new action called "rate-l
              "name": "rate-limit-syn",
              "matches": {
                "tcp": {
-                 "flags-bitmask": {
+                 "acl-enh:flags-bitmask": {
                    "operator": "match",
                    "bitmask": 2
                  }
@@ -571,7 +571,7 @@ In order to support rate-limiting (see {{ps-rate}}), a new action called "rate-l
              },
              "actions": {
                "forwarding": "accept",
-               "rate-limit": "20.00"
+               "acl-enh:rate-limit": "20.00"
              }
            }]
          }
@@ -593,7 +593,7 @@ In order to support rate-limiting (see {{ps-rate}}), a new action called "rate-l
 ~~~
 
 
-# Security Considerations (TBC)
+# Security Considerations
 
 The YANG modules specified in this document define a schema for data
    that is designed to be accessed via network management protocol such
@@ -637,7 +637,7 @@ This document requests IANA to register the following YANG module in
          name: ietf-acl-enh
          namespace: urn:ietf:params:xml:ns:yang:ietf-ietf-acl-enh
          maintained by IANA: N
-         prefix: enh-acl
+         prefix: acl-enh
          reference: RFC XXXX
 ~~~
 
@@ -647,7 +647,7 @@ This document requests IANA to register the following YANG module in
 
 Many thanks to Jon Shallow and Miguel Cros for the review and comments to the document, incuding priror to publishing the document.
 
-Thanks for Qin Wu and Qiufang Ma for the comments and suggestions.
+Thanks to Qiufang Ma for the comments and suggestions.
 
 This work is partially supported by the European Commission under   Horizon 2020 Secured autonomic traffic management for a Tera of SDN
  flows (Teraflow) project (grant agreement number 101015857).
