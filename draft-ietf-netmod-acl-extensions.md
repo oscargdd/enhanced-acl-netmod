@@ -39,6 +39,7 @@ RFC 8519 defines a YANG data model for Access Control Lists
 (ACLs). This document discusses a set of extensions that fix many of
 the limitations of the ACL model as initially defined in RFC 8519.
 
+The document also defines an IANA-maintained module for ICMP types.
 
 --- middle
 
@@ -81,11 +82,14 @@ Network operators maintain sets of IP prefixes that are related to each other,
 e.g., deny-lists or accept-lists that are associated with those provided by a
  VPN customer. These lists are maintained and manipulated by security expert teams.
 
-
 Note that ACLs are used locally in devices but are triggered by other
 tools such as DDoS mitigation {{?RFC9132}} or BGP Flow Spec {{?RFC8955}}
 {{!RFC8956}}. Therefore, supporting means to easily map to the filtering rules conveyed in
 messages triggered by  these tools is valuable from a network operation standpoint.
+
+The document also defines an IANA-maintained module for ICMP types. The design of the module adheres with the recommendations
+in {{?I-D.boucadair-netmod-iana-registries}}. A template to generate the module is available at {{template}}. Readers should refer to the IANA
+website [REF_TBC] to retrieve the latest version of the module. The module is provided in {{iana-icmp}} for the users convenience, but that appendix will be removed from the final RFC.
 
 # Terminology
 
@@ -618,30 +622,60 @@ Some of the readable data nodes in this YANG module may be considered sensitive 
 
 ## URI Registration
 
-   This document requests IANA to register the following URI in the "ns"
+   This document requests IANA to register the following URIs in the "ns"
    subregistry within the "IETF XML Registry" {{!RFC3688}}:
 
 ~~~ ascii-art
          URI: urn:ietf:params:xml:ns:yang:ietf-acl-enh
          Registrant Contact: The IESG.
          XML: N/A; the requested URI is an XML namespace.
+
+         URI: urn:ietf:params:xml:ns:yang:iana-icmp-types
+         Registrant Contact: The IESG.
+         XML: N/A; the requested URI is an XML namespace.
 ~~~
 
 ## YANG Module Name Registration
 
-This document requests IANA to register the following YANG module in
+This document requests IANA to register the following YANG modules in
    the "YANG Module Names" subregistry {{!RFC6020}} within the "YANG
    Parameters" registry.
 
 ~~~ ascii-art
          name: ietf-acl-enh
-         namespace: urn:ietf:params:xml:ns:yang:ietf-ietf-acl-enh
+         namespace: urn:ietf:params:xml:ns:yang:ietf-acl-enh
          maintained by IANA: N
          prefix: acl-enh
+         reference: RFC XXXX
+
+         name: ietf-icmp-types
+         namespace: urn:ietf:params:xml:ns:yang:iana-icmp-types
+         maintained by IANA: Y
+         prefix: iana-icmp-types
          reference: RFC XXXX
 ~~~
 
 --- back
+
+# XLTS Template to Generate The ICMP Type IANA-Maintained Module {#template}
+
+~~~
+<CODE BEGINS>
+
+{::include-fold ./yang/iana-icmp-types.xsl}
+
+<CODE ENDS>
+~~~
+
+# Initial Version of the The ICMP Type IANA-Maintained Module {#iana-icmp}
+
+~~~
+<CODE BEGINS> file "iana-icmp-types@2020-09-25.yang"
+
+{::include ./yang/iana-icmp-types.yang}
+
+<CODE ENDS>
+~~~
 
 # Acknowledgements
 
@@ -651,4 +685,3 @@ Thanks to Qiufang Ma for the comments and suggestions.
 
 This work is partially supported by the European Commission under   Horizon 2020 Secured autonomic traffic management for a Tera of SDN
  flows (Teraflow) project (grant agreement number 101015857).
-
