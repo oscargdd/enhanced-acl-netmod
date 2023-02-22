@@ -590,7 +590,7 @@ In order to support rate-limiting (see {{ps-rate}}), a new action called "rate-l
 
 In order to support rate-limiting (see {{ps-rate}}), a new action called "rate-limit" is defined.
 
-{{example_5}} shows an ACL example to rate-limit incoming SYNs during a SYN flood attack.
+{{example_6}} shows an ACL example to rate-limit incoming SYNs during a SYN flood attack.
 
 ~~~ ascii-art
   {
@@ -627,7 +627,7 @@ In order to support rate-limiting (see {{ps-rate}}), a new action called "rate-l
 
 In order to support rate-limiting (see {{ps-rate}}), a new action called "rate-limit" is defined.
 
-{{example_5}} shows an ACL example to rate-limit incoming SYNs during a SYN flood attack.
+{{example_7}} shows an ACL example to rate-limit incoming SYNs during a SYN flood attack.
 
 ~~~ ascii-art
   {
@@ -656,7 +656,7 @@ In order to support rate-limiting (see {{ps-rate}}), a new action called "rate-l
     }
    }
 ~~~
-{: #example_6 title="Example ISID Filter FILTER"}
+{: #example_7 title="Example VLAN Filter FILTER"}
 
 # YANG Modules
 
