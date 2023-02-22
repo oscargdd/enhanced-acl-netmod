@@ -588,9 +588,22 @@ In order to support rate-limiting (see {{ps-rate}}), a new action called "rate-l
 
 ## ISID Filter
 
-In order to support rate-limiting (see {{ps-rate}}), a new action called "rate-limit" is defined.
+Provider backbone bridging (PBB) was originally defined as IEEE
+802.1ah standard. However, instead of multiplexing VLANs, PBB
+duplicates the MAC layer of the customer frame and separates it from
+the provider domain, by encapsulating it in a 24 bit instance service
+identifier (I-SID). This allows for complete transparency between the
+customer network and the provider network.
 
-{{example_6}} shows an ACL example to rate-limit incoming SYNs during a SYN flood attack.
+The I-component forms the customer or access facing interface or
+routing instance. The I-component is responsible for mapping customer
+Ethernet traffic to the appropriate I-SID. In the netrowk is
+mandatory to configure the default service identifier (I-SID).
+
+Beign able to filter by I-Component Service identifier is a feature of
+the PBB configuration.
+
+{{example_6}} shows an ACL example to ISID range filtering.
 
 ~~~ ascii-art
   {
@@ -625,9 +638,12 @@ In order to support rate-limiting (see {{ps-rate}}), a new action called "rate-l
 
 ## VLAN Filter
 
-In order to support rate-limiting (see {{ps-rate}}), a new action called "rate-limit" is defined.
+The flexibility to apply a traffic filter to a VLAN is part of the VPN control 
+requirements. So, all packets that are bridged within a VLAN or that
+are routed into or out of a VLAN or a WAN interface for the ACL
+capture.
 
-{{example_7}} shows an ACL example to rate-limit incoming SYNs during a SYN flood attack.
+{{example_7}} shows an ACL example to apply a VLAN range Filter.
 
 ~~~ ascii-art
   {
