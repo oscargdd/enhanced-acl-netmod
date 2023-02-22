@@ -279,7 +279,7 @@ module ietf-acl-enh {
           "Entering the frame type allows the 
           filter to match a specific type of frame format";
       }
-      choice vlans {
+      choice vlan-type {
         case range {
           leaf lower-vlan {
             type uint16;
@@ -324,12 +324,12 @@ module ietf-acl-enh {
         + "/acl:ace/acl:matches/acl:l2" {
     description
       "Handle the augmentation of ISID Filter.";
-    container vlan-filter {
+    container isid-filter {
       description
         "Indicates how to handle ISID filters. 
         The I-component is responsible for mapping customer 
         Ethernet traffic to the appropriate ISID.";
-      choice isid {
+      choice isid-type {
         case range {
           leaf lower-isid {
             type uint16;
