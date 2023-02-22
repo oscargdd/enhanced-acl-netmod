@@ -585,7 +585,6 @@ In order to support rate-limiting (see {{ps-rate}}), a new action called "rate-l
 ~~~
 {: #example_5 title="Example Rate-Limit Incoming TCP SYNs"}
 
-
 ## ISID Filter
 
 Provider backbone bridging (PBB) was originally defined as IEEE
