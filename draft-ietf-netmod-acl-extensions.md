@@ -637,7 +637,7 @@ the PBB configuration.
 
 ## VLAN Filter
 
-The flexibility to apply a traffic filter to a VLAN is part of the VPN control 
+The flexibility to apply a traffic filter to a VLAN is part of the VPN control
 requirements. So, all packets that are bridged within a VLAN or that
 are routed into or out of a VLAN or a WAN interface for the ACL
 capture.
