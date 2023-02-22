@@ -621,7 +621,7 @@ In order to support rate-limiting (see {{ps-rate}}), a new action called "rate-l
     }
    }
 ~~~
-{: #example_6 title="Example ISID Filter FILTER"}
+{: #example_6 title="Example ISID Filter"}
 
 ## VLAN Filter
 
@@ -656,7 +656,7 @@ In order to support rate-limiting (see {{ps-rate}}), a new action called "rate-l
     }
    }
 ~~~
-{: #example_7 title="Example VLAN Filter FILTER"}
+{: #example_7 title="Example VLAN Filter"}
 
 # YANG Modules
 
