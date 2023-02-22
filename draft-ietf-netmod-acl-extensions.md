@@ -585,6 +585,79 @@ In order to support rate-limiting (see {{ps-rate}}), a new action called "rate-l
 ~~~
 {: #example_5 title="Example Rate-Limit Incoming TCP SYNs"}
 
+
+## ISID Filter
+
+In order to support rate-limiting (see {{ps-rate}}), a new action called "rate-limit" is defined.
+
+{{example_5}} shows an ACL example to rate-limit incoming SYNs during a SYN flood attack.
+
+~~~ ascii-art
+  {
+    "ietf-acces-control-list:acls": {
+          "acl": [
+            {
+              "name": "test",
+              "aces": {
+                "ace": [
+                  {
+                    "name": "1",
+                    "matches": {
+                      "ietf-acl-enh:isid-filter": {
+                        "lower-isid": 100,
+                        "upper-isid": 200
+                      }
+                    },
+                    "actions": {
+                      "forwarding": "ietf-acces-control-list:accept"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    }
+   }
+~~~
+{: #example_6 title="Example ISID Filter FILTER"}
+
+## VLAN Filter
+
+In order to support rate-limiting (see {{ps-rate}}), a new action called "rate-limit" is defined.
+
+{{example_5}} shows an ACL example to rate-limit incoming SYNs during a SYN flood attack.
+
+~~~ ascii-art
+  {
+    "ietf-acces-control-list:acls": {
+      "acl": [
+        {
+          "name": "VLAN_FILTER",
+          "aces": {
+            "ace": [
+              {
+                "name": "1",
+                "matches": {
+                  "ietf-acl-enh:vlan-filter": {
+                    "lower-vlan": 10,
+                    "upper-vlan": 20
+                  }
+                },
+                "actions": {
+                  "forwarding": "ietf-acces-control-list:accept"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+   }
+~~~
+{: #example_6 title="Example ISID Filter FILTER"}
+
 # YANG Modules
 
 ## Enhanced ACL
