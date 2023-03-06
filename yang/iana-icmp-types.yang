@@ -305,7 +305,7 @@ module iana-icmp-types {
 
   typedef icmp-type {
     type union {
-      type uint8/;
+      type uint8;
       type icmp-type-name;
     }
     description
