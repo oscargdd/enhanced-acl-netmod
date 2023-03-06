@@ -597,10 +597,10 @@ customer network and the provider network.
 The I-component forms the customer or access facing interface or
 routing instance. The I-component is responsible for mapping customer
 Ethernet traffic to the appropriate I-SID. In the netrowk is
-mandatory to configure the default service identifier (I-SID).
+mandatory to configure the default service identifier.
 
 Beign able to filter by I-Component Service identifier is a feature of
-the PBB configuration.
+the EVNP-PBB configuration.
 
 {{example_6}} shows an ACL example to ISID range filtering.
 
@@ -639,8 +639,7 @@ the PBB configuration.
 
 The flexibility to apply a traffic filter to a VLAN is part of the VPN control
 requirements. So, all packets that are bridged within a VLAN or that
-are routed into or out of a VLAN or a WAN interface for the ACL
-capture.
+are routed into or out of a VLAN can be captured.
 
 {{example_7}} shows an ACL example to apply a VLAN range Filter.
 

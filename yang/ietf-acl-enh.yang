@@ -62,6 +62,16 @@ module ietf-acl-enh {
       "Match based on a pattern is supported.";
   }
 
+  feature match-on-vlan-flter {
+    description
+      "Match based on a VLAN range of vlan list is supported.";
+  }
+
+  feature match-on-isid-filter {
+    description
+      "Match based on a ISID range of vlan list is supported.";
+  }
+
   identity offset-type {
     description
       "Base identity for payload offset type.";
@@ -271,6 +281,7 @@ module ietf-acl-enh {
     description
       "Handle the augmentation of MAC VLAN Filter.";
     container vlan-filter {
+      if-feature "match-on-vlan-flter";
       description
         "Indicates how to handle MAC VLAN.";
       leaf frame-type {
@@ -325,6 +336,7 @@ module ietf-acl-enh {
     description
       "Handle the augmentation of ISID Filter.";
     container isid-filter {
+      if-feature "match-on-isid-filter";
       description
         "Indicates how to handle ISID filters. 
         The I-component is responsible for mapping customer 
