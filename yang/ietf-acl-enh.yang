@@ -91,6 +91,96 @@ module ietf-acl-enh {
        header.";
   }
 
+  identity tcp-flag {
+    description
+      "Base Identity for the TCP Flags.";
+  }
+
+  identity ACK {
+    base tcp-flag;
+    description
+      "The acknowledgment ACK TCP flag is used to acknowledge the 
+      successful receipt of a packet. As we can see from the diagram above, 
+      the receiver sends an ACK as well as a SYN in the second step
+      of the three-way handshake process to tell the sender 
+      that it received its initial packet.";
+  }
+
+  identity SYN {
+    base tcp-flag;
+    description
+      "The Synchronize sequence numbers flag is used to establish a three-way 
+      handshake between two hosts. Only the first packet from both the sender 
+      and receiver should have this flag set. The following diagram 
+      illustrates a three-way handshake process.";
+  }
+
+  identity FIN {
+    base tcp-flag;
+    description
+      "The finished flag means there is no more data from the sender. 
+      Therefore, it is used in the last packet sent from the sender. 
+      It frees the reserved resources and gracefully terminates the connection";
+  }
+
+  identity URG {
+    base tcp-flag;
+    description
+      "he Urgent pointer field is significant flag is used to notify the 
+      receiver to process the urgent packets before processing all other packets. 
+      The receiver will be notified when all known urgent 
+      data has been received.";
+    reference
+     "RFC 9293";
+  }
+
+  identity PSH {
+    base tcp-flag;
+    description
+      "The Push function flag is similar to the URG flag and tells the 
+      receiver to process these packets as they are received 
+      instead of buffering them. ";
+  }
+
+  identity RST {
+    base tcp-flag;
+    description
+      "The Reset the connection flag gets sent from the receiver to the sender 
+      when a packet is sent to a particular host that was not expecting it.";
+  }
+
+  identity R1 {
+    base tcp-flag;
+    description
+      "The R1 retransmission threshold has been reached.";
+    reference
+     "RFC 9293";
+  }
+
+  identity R2 {
+    base tcp-flag;
+    description
+      "The R2 retransmission threshold has been reached.";
+    reference
+     "RFC 9293";
+  }
+
+  identity ECE {
+    base tcp-flag;
+    description
+      "TThis flag is responsible for indicating if the TCP peer is 
+      Explicit Congestion Notification capable.";
+    reference
+     "RFC 3168";
+  }
+
+  identity CWR {
+    base tcp-flag;
+    description
+      "The congestion window reduced flag is used by the sending 
+      host to indicate it received a packet with the ECE flag set. ";
+  }
+
   typedef operator {
     type bits {
       bit not {
@@ -191,22 +281,35 @@ module ietf-acl-enh {
       "Defines a reference to an ICMP type set.";
   }
 
-  grouping tcp-flags {
+grouping tcp-flags {
     description
       "Operations on TCP flags.";
-    leaf operator {
-      type operator;
-      default "match";
-      description
-        "How to interpret the TCP flags.";
-    }
-    leaf bitmask {
-      type uint16;
-      description
-        "The bitmask matches the last 4 bits of byte 12
-         and byte 13 of the TCP header.  For clarity, the 4 bits
-         of byte 12 corresponding to the TCP data offset field
-         are not included in any matching.";
+    choice mode  {
+      case explicit {
+        leaf operator {
+          type operator;
+          default "match";
+          description
+            "How to interpret the TCP flags.";
+        }
+        leaf-list explicit-tcp-flag {
+          type identityref {
+            base tcp-flag;
+          }
+          description
+            "An explicit list of the TCP flags that are to be matched. .";
+        }
+      }
+      case builtin {
+        leaf bitmask {
+          type uint16;
+          description
+            "The bitmask matches the last 4 bits of byte 12
+            and byte 13 of the TCP header.  For clarity, the 4 bits
+            of byte 12 corresponding to the TCP data offset field
+            are not included in any matching.";
+        }
+      }
     }
   }
 
