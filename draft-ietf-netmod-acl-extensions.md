@@ -599,7 +599,7 @@ routing instance. The I-component is responsible for mapping customer
 Ethernet traffic to the appropriate I-SID. In the netrowk is
 mandatory to configure the default service identifier.
 
-Beign able to filter by I-Component Service identifier is a feature of
+Being able to filter by I-component Service identifier is a feature of
 the EVNP-PBB configuration.
 
 {{example_6}} shows an ACL example to ISID range filtering.
