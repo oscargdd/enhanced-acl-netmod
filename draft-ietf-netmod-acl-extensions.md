@@ -313,7 +313,6 @@ Note that some aliases can be provided by decomposing them into separate sets.
         |  |     +--rw uri*          inet:uri
         |  +--rw acls
         |     ...
-        |           +--rw rest-of-header?   binary
 ~~~
 {: #example_alias title="Examples of Aliases."}
 
