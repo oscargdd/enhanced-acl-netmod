@@ -181,7 +181,8 @@ module ietf-acl-enh {
      "RFC 3168";
   }
 
-  identity CWR {
+  identity cwr {
+
     base tcp-flag;
     description
       "The congestion window reduced flag is used by the sending 
