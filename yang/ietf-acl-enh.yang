@@ -302,6 +302,8 @@ module ietf-acl-enh {
           filter to match a specific type of frame format";
       }
       choice vlan-type {
+        description
+          "vlan definition from range or operator.";
         case range {
           leaf lower-vlan {
             type uint16;
@@ -335,8 +337,6 @@ module ietf-acl-enh {
                match.";
           }
         }
-        description
-          "vlan definition from range or operator.";
       }
     }
   }
@@ -348,11 +348,15 @@ module ietf-acl-enh {
       "Handle the augmentation of ISID Filter.";
     container isid-filter {
       if-feature "match-on-isid-filter";
+     
       description
         "Indicates how to handle ISID filters. 
         The I-component is responsible for mapping customer 
         Ethernet traffic to the appropriate ISID.";
+      
       choice isid-type {
+        description
+          "ISID definition from range or operator.";
         case range {
           leaf lower-isid {
             type uint16;
@@ -386,8 +390,6 @@ module ietf-acl-enh {
                match.";
           }
         }
-        description
-          "ISID definition from range or operator.";
       }
     }
   }
