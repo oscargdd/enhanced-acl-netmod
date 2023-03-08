@@ -108,7 +108,8 @@ module ietf-acl-enh {
       that it received its initial packet.";
   }
 
-  identity SYN {
+  identity syn {
+
     base tcp-flag;
     description
       "The Synchronize sequence numbers flag is used to establish a three-way 
