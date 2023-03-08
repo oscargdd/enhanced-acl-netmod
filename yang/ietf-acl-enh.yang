@@ -288,6 +288,8 @@ grouping tcp-flags {
     description
       "Operations on TCP flags.";
     choice mode  {
+      description
+        "tcp-flag mode";
       case explicit {
         leaf operator {
           type operator;
