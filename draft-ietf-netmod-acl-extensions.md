@@ -200,10 +200,8 @@ and destination prefixes are involved.
 
 Such a configuration is suboptimal for both:
 
-- Network controllers that
-   need to manipulate large files.  All or a subset for this
-   configuration will need to be passed to the underlying network
-   devices
+- Network controllers that need to manipulate large files.  All or a subset for this
+   configuration will need to be passed to the underlying network devices.
 - Devices may receive such a configuration and thus will need to maintain it locally.
 
 {{example_1}} depicts an example of an optimized structure:
