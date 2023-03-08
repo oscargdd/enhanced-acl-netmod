@@ -172,7 +172,8 @@ module ietf-acl-enh {
      "RFC 9293";
   }
 
-  identity ECE {
+  identity ece {
+
     base tcp-flag;
     description
       "TThis flag is responsible for indicating if the TCP peer is 
