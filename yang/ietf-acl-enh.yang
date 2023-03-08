@@ -140,7 +140,8 @@ module ietf-acl-enh {
 
   }
 
-  identity PSH {
+  identity psh {
+
     base tcp-flag;
     description
       "The Push function flag is similar to the URG flag and tells the 
