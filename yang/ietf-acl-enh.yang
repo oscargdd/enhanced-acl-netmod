@@ -136,7 +136,8 @@ module ietf-acl-enh {
       The receiver will be notified when all known urgent 
       data has been received.";
     reference
-     "RFC 9293";
+     "RFC 9293: Transmission Control Protocol (TCP), Section 3.1";
+
   }
 
   identity PSH {
