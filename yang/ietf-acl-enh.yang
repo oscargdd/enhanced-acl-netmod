@@ -148,7 +148,8 @@ module ietf-acl-enh {
       instead of buffering them. ";
   }
 
-  identity RST {
+  identity rst {
+
     base tcp-flag;
     description
       "The Reset the connection flag gets sent from the receiver to the sender 
