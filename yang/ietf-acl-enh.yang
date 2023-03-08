@@ -62,7 +62,8 @@ module ietf-acl-enh {
       "Match based on a pattern is supported.";
   }
 
-  feature match-on-vlan-flter {
+  feature match-on-vlan-filter {
+
     description
       "Match based on a VLAN range of vlan list is supported.";
   }
