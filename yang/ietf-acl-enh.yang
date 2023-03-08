@@ -109,15 +109,12 @@ module ietf-acl-enh {
   identity syn {
     base tcp-flag;
     description
-      "The Synchronize sequence numbers flag is used to establish a three-way 
-      handshake between two hosts. Only the first packet from both the sender 
-      and receiver should have this flag set.";
+      "Synchronize sequence numbers.";
     reference
       "RFC 9293: Transmission Control Protocol (TCP), Section 3.1";
   }
 
   identity fin {
-
     base tcp-flag;
     description
       "The finished flag means there is no more data from the sender. 
@@ -128,7 +125,6 @@ module ietf-acl-enh {
   }
 
   identity urg {
-
     base tcp-flag;
     description
       "he Urgent pointer field is significant flag is used to notify the 
