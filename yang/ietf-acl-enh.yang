@@ -100,7 +100,8 @@ module ietf-acl-enh {
 
     base tcp-flag;
     description
-      "The acknowledgment ACK TCP flag is used to acknowledge the 
+      "The acknowledgment TCP flag is used to acknowledge the 
+
       successful receipt of a packet. As we can see from the diagram above, 
       the receiver sends an ACK as well as a SYN in the second step
       of the three-way handshake process to tell the sender 
