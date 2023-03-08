@@ -200,9 +200,11 @@ and destination prefixes are involved.
 
 Such a configuration is suboptimal for both:
 
-- Network controllers that need to manipulate large files.  All or a subset for this
-   configuration will need to be passed to the underlying network devices.
-- Devices may receive such a configuration and thus will need to maintain it locally.
+- Network controllers that need to manipulate large files. All or a
+  subset for this configuration will need to be passed to the
+  underlying network devices.
+- Devices may receive such a configuration and thus will need to
+  maintain it locally.
 
 {{example_1}} depicts an example of an optimized structure:
 
@@ -638,7 +640,7 @@ the EVNP-PBB configuration.
 
 Being able to filter all packets that are bridged within a VLAN or that
 are routed into or out of a bridge domain is part of the VPN control
-requirements derived of the EVPN definition done in {{?RFC7209}}. 
+requirements derived of the EVPN definition done in {{!RFC7209}}. 
 So, all packets that are bridged within a VLAN or that are routed into or 
 out of a VLAN can be captured, forwarded, translated or dicarded based 
 on the network policy applied.
@@ -689,12 +691,12 @@ on the network policy applied.
 # Security Considerations
 
 The YANG modules specified in this document define a schema for data
-   that is designed to be accessed via network management protocol such
-   as NETCONF {{!RFC6241}} or RESTCONF {{!RFC8040}}.  The lowest NETCONF layer
-   is the secure transport layer, and the mandatory-to-implement secure
-   transport is Secure Shell (SSH) {{!RFC6242}}.  The lowest RESTCONF layer
-   is HTTPS, and the mandatory-to-implement secure transport is TLS
-   {{!RFC8446}}.
+ that is designed to be accessed via network management protocol such
+ as NETCONF {{!RFC6241}} or RESTCONF {{!RFC8040}}.  The lowest NETCONF layer
+ is the secure transport layer, and the mandatory-to-implement secure
+ transport is Secure Shell (SSH) {{!RFC6242}}.  The lowest RESTCONF layer
+ is HTTPS, and the mandatory-to-implement secure transport is TLS
+ {{!RFC8446}}.
 
 The Network Configuration Access Control Model (NACM) {{!RFC8341}} provides the means to restrict access for particular NETCONF or RESTCONF users to a preconfigured subset of all available NETCONF or RESTCONF protocol operations and content.
 
