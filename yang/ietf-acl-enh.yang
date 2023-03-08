@@ -96,7 +96,8 @@ module ietf-acl-enh {
       "Base Identity for the TCP Flags.";
   }
 
-  identity ACK {
+  identity ack {
+
     base tcp-flag;
     description
       "The acknowledgment ACK TCP flag is used to acknowledge the 
