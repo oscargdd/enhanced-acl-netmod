@@ -272,7 +272,7 @@ The defined sets are reusable definitions across several ACLs. Each category is 
 A candidate structure is shown in {{example_sets}}:
 
 
-~~~ ascii-art
+~~~
      +--rw defined-sets
      |  +--rw prefix-sets
      |  |  +--rw prefix-set* [name]
@@ -300,7 +300,7 @@ A candidate structure is shown in {{example_sets}}:
 Aliases may also be considered to managed resources that are identified by a combination of various parameters as shown in the candidate tree in {{example_alias}}.
 Note that some aliases can be provided by decomposing them into separate sets.
 
-~~~ ascii-art
+~~~
         |  +--rw aliases
         |  |  +--rw alias* [name]
         |  |     +--rw name                 string
@@ -380,7 +380,7 @@ requirements, e.g.:
 
 {{enh-acl-tree}} shows the full enhanced ACL tree:
 
-~~~ ascii-art
+~~~
 {::include ./yang/enh-tree.txt}
 ~~~
 {: #enh-acl-tree title="Enhanced ACL tree"}
@@ -404,7 +404,7 @@ Clients that support both 'flags-bitmask' and 'flags' matching fields MUST NOT s
 
 {{example_4}} shows an example of a request to install a filter to discard incoming TCP messages having all flags unset.
 
-~~~ ascii-art
+~~~
   {
      "ietf-access-control-list:acls": {
        "acl": [{
@@ -444,7 +444,7 @@ packets.  The following ACEs are defined (in this order):
 * "allow-dns-packets" ACE: accepts DNS packets destined to 198.51.100.0/24.
 
 
-~~~ ascii-art
+~~~
 {
      "ietf-access-control-list:acls": {
        "acl": [
@@ -499,7 +499,7 @@ packets.  The following ACEs are defined (in this order):
 * "allow-dns-packets" ACE: accepts DNS packets destined to 2001:db8::/32.
 
 
-~~~ ascii-art
+~~~
     {
      "ietf-access-control-list:acls": {
        "acl": [
@@ -554,7 +554,7 @@ In order to support rate-limiting (see {{ps-rate}}), a new action called "rate-l
 
 {{example_5}} shows an ACL example to rate-limit incoming SYNs during a SYN flood attack.
 
-~~~ ascii-art
+~~~
   {
      "ietf-access-control-list:acls": {
        "acl": [{
@@ -587,7 +587,7 @@ In order to support rate-limiting (see {{ps-rate}}), a new action called "rate-l
 ## Enhanced ACL
 
 
-~~~ ascii-art
+~~~
 <CODE BEGINS> file "ietf-acl-enh@2022-10-24.yang"
 {::include ./yang/ietf-acl-enh.yang}
 <CODE ENDS>
@@ -622,7 +622,7 @@ Some of the readable data nodes in this YANG module may be considered sensitive 
    This document requests IANA to register the following URIs in the "ns"
    subregistry within the "IETF XML Registry" {{!RFC3688}}:
 
-~~~ ascii-art
+~~~
          URI: urn:ietf:params:xml:ns:yang:ietf-acl-enh
          Registrant Contact: The IESG.
          XML: N/A; the requested URI is an XML namespace.
@@ -638,7 +638,7 @@ This document requests IANA to register the following YANG modules in
    the "YANG Module Names" subregistry {{!RFC6020}} within the "YANG
    Parameters" registry.
 
-~~~ ascii-art
+~~~
          name: ietf-acl-enh
          namespace: urn:ietf:params:xml:ns:yang:ietf-acl-enh
          maintained by IANA: N
