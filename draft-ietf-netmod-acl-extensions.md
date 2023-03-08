@@ -588,7 +588,7 @@ In order to support rate-limiting (see {{ps-rate}}), a new action called "rate-l
 ## ISID Filter
 
 Provider backbone bridging (PBB) was originally defined as Virtual
-Bridged Local Area Networks {{?IEEE802.1ah}} 
+Bridged Local Area Networks [IEEE802.1ah]
 standard. However, instead of multiplexing VLANs, PBB
 duplicates the MAC layer of the customer frame and separates it from
 the provider domain, by encapsulating it in a 24 bit instance service
