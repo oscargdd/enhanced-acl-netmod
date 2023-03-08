@@ -587,8 +587,9 @@ In order to support rate-limiting (see {{ps-rate}}), a new action called "rate-l
 
 ## ISID Filter
 
-Provider backbone bridging (PBB) was originally defined as IEEE
-802.1ah standard. However, instead of multiplexing VLANs, PBB
+Provider backbone bridging (PBB) was originally defined as Virtual
+Bridged Local Area Networks {{?IEEE802.1ah}} 
+standard. However, instead of multiplexing VLANs, PBB
 duplicates the MAC layer of the customer frame and separates it from
 the provider domain, by encapsulating it in a 24 bit instance service
 identifier (I-SID). This allows for complete transparency between the
@@ -637,9 +638,12 @@ the EVNP-PBB configuration.
 
 ## VLAN Filter
 
-The flexibility to apply a traffic filter to a VLAN is part of the VPN control
-requirements. So, all packets that are bridged within a VLAN or that
-are routed into or out of a VLAN can be captured.
+Being able to filter all packets that are bridged within a VLAN or that
+are routed into or out of a bridge domain is part of the VPN control
+requirements derived of the EVPN definition done in {{?RFC7209}}. 
+So, all packets that are bridged within a VLAN or that are routed into or 
+out of a VLAN can be captured, forwarded, translated or dicarded based 
+on the network policy applied.
 
 {{example_7}} shows an ACL example to apply a VLAN range Filter.
 
