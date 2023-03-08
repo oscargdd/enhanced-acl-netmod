@@ -311,8 +311,6 @@ Note that some aliases can be provided by decomposing them into separate sets.
         |  |     +--rw protocol*     uint8
         |  |     +--rw fqdn*         inet:domain-name
         |  |     +--rw uri*          inet:uri
-        |  +--rw acls
-        |     ...
 ~~~
 {: #example_alias title="Examples of Aliases."}
 
