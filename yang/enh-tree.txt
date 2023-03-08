@@ -64,8 +64,12 @@ module: ietf-acl-enh
   augment /acl:acls/acl:acl/acl:aces/acl:ace/acl:matches/acl:l4
             /acl:tcp:
     +--rw flags-bitmask
-    |  +--rw operator?   operator
-    |  +--rw bitmask?    uint16
+    |  +--rw (mode)?
+    |     +--:(explicit)
+    |     |  +--rw operator?            operator
+    |     |  +--rw explicit-tcp-flag*   identityref
+    |     +--:(builtin)
+    |        +--rw bitmask?             uint16
     +--rw source-tcp-port-set?        port-set-ref
     +--rw destination-tcp-port-set?   port-set-ref
   augment /acl:acls/acl:acl/acl:aces/acl:ace/acl:matches/acl:l4
