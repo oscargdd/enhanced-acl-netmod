@@ -102,6 +102,88 @@ module ietf-acl-enh {
        header.";
   }
 
+  identity tcp-flag {
+    description
+      "Base Identity for the TCP Flags.";
+    reference
+      "RFC 9293: Transmission Control Protocol (TCP), Section 3.1";
+  }
+
+  identity ack {
+    base tcp-flag;
+    description
+      "TCP flag is used to mark the Acknowledgment field is significant";
+    reference
+      "RFC 9293: Transmission Control Protocol (TCP), Section 3.1";
+  }
+
+  identity syn {
+    base tcp-flag;
+    description
+      "Synchronize sequence numbers.";
+    reference
+      "RFC 9293: Transmission Control Protocol (TCP), Section 3.1";
+  }
+
+  identity fin {
+    base tcp-flag;
+    description
+      "The finished flag means there is no more data from the sender. 
+      Therefore, it is used in the last packet sent from the sender. 
+      It frees the reserved resources and gracefully terminates the connection";
+    reference
+      "RFC 9293: Transmission Control Protocol (TCP), Section 3.1";
+  }
+
+  identity urg {
+    base tcp-flag;
+    description
+      "he Urgent pointer field is significant flag is used to notify the 
+      receiver to process the urgent packets before processing all other packets. 
+      The receiver will be notified when all known urgent 
+      data has been received.";
+    reference
+     "RFC 9293: Transmission Control Protocol (TCP), Section 3.1";
+
+  }
+
+  identity psh {
+    base tcp-flag;
+    description
+      "The Push function flag is similar to the URG flag and tells the 
+      receiver to process these packets as they are received 
+      instead of buffering them.";
+    reference
+      "RFC 9293: Transmission Control Protocol (TCP), Section 3.1";
+  }
+
+  identity rst {
+    base tcp-flag;
+    description
+      "The Reset the connection flag gets sent from the receiver to the sender 
+      when a packet is sent to a particular host that was not expecting it.";
+    reference
+      "RFC 9293: Transmission Control Protocol (TCP), Section 3.1";
+  }
+
+  identity ece {
+    base tcp-flag;
+    description
+      "This flag is responsible for indicating if the TCP peer is 
+      Explicit Congestion Notification capable.";
+    reference
+     "RFC 3168: The Addition of Explicit Congestion Notification (ECN) to IP";
+  }
+
+  identity cwr {
+    base tcp-flag;
+    description
+      "The congestion window reduced flag is used by the sending 
+      host to indicate it received a packet with the ECE flag set.";
+    reference
+     "RFC 3168: The Addition of Explicit Congestion Notification (ECN) to IP";
+  }
+
   typedef operator {
     type bits {
       bit not {
@@ -202,22 +284,37 @@ module ietf-acl-enh {
       "Defines a reference to an ICMP type set.";
   }
 
-  grouping tcp-flags {
+grouping tcp-flags {
     description
       "Operations on TCP flags.";
-    leaf operator {
-      type operator;
-      default "match";
+    choice mode  {
       description
-        "How to interpret the TCP flags.";
-    }
-    leaf bitmask {
-      type uint16;
-      description
-        "The bitmask matches the last 4 bits of byte 12
-         and byte 13 of the TCP header.  For clarity, the 4 bits
-         of byte 12 corresponding to the TCP data offset field
-         are not included in any matching.";
+        "tcp-flag mode";
+      case explicit {
+        leaf operator {
+          type operator;
+          default "match";
+          description
+            "How to interpret the TCP flags.";
+        }
+        leaf-list explicit-tcp-flag {
+          type identityref {
+            base tcp-flag;
+          }
+          description
+            "An explicit list of the TCP flags that are to be matched. .";
+        }
+      }
+      case builtin {
+        leaf bitmask {
+          type uint16;
+          description
+            "The bitmask matches the last 4 bits of byte 12
+            and byte 13 of the TCP header.  For clarity, the 4 bits
+            of byte 12 corresponding to the TCP data offset field
+            are not included in any matching.";
+        }
+      }
     }
   }
 
