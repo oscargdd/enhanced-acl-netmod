@@ -677,5 +677,7 @@ Many thanks to Jon Shallow and Miguel Cros for the review and comments to the do
 
 Thanks to Qiufang Ma and Victor Lopez for the comments and suggestions.
 
+The IANA-maintined model was generated using an XSLT stylesheet from the 'iana-yang' project (https://github.com/llhotka/iana-yang).
+
 This work is partially supported by the European Commission under   Horizon 2020 Secured autonomic traffic management for a Tera of SDN
  flows (Teraflow) project (grant agreement number 101015857).
