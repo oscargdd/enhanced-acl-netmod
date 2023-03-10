@@ -99,9 +99,10 @@ The meaning of the symbols in the tree diagrams is defined in
 {{?RFC8340}}.
 
 
-In addition to the terms defined in {{!RFC8519}}, this document makes use of the following terms:
+In addition to the terms defined in {{!RFC8519}}, this document makes use of the following term:
 
-- Defined set: Refers to reusable description of one or multiple information elements (e.g., IP address, IP prefix, port number, or ICMP type).
+Defined set:
+:Refers to reusable description of one or multiple information elements (e.g., IP address, IP prefix, port number, or ICMP type).
 
 # Problem Statement & Gap Analysis {#ps}
 
@@ -111,11 +112,9 @@ IP prefix-related data nodes, e.g., "destination-ipv4-network" or
    "destination-ipv6-network", do not support handling a list of IP
    prefixes, which may then lead to having to support large numbers of ACL entries in a configuration file.
 
-The same issue
-is encountered when ACLs have to be in place to mitigate DDoS
-attacks (e.g., {{?RFC9132}}) when a set of sources are involved in such
-an attack. The situation is even worse when both a list of sources
-and destination prefixes are involved.
+The same issue is encountered when ACLs have to be in place to mitigate DDoS
+attacks that involve a set of sources (e.g., {{?RFC9132}}). The situation is even worse when both a list of sources
+and destination prefixes are involved in the filtering.
 
 {{example}} shows an example of the required ACL configuration for filtering traffic from two prefixes.
 
@@ -195,7 +194,7 @@ and destination prefixes are involved.
   }
 }
 ~~~~~~~~~~~
-{: #example title="Example Illustrating Sub-optimal Use of the ACL Model with a Prefix List"}
+{: #example title="Example Illustrating Sub-optimal Use of the ACL Model with a Prefix List (Message Body)"}
 
 Such a configuration is suboptimal for both:
 
@@ -251,7 +250,7 @@ Such a configuration is suboptimal for both:
   }
 }
 ~~~~~~~~~~~
-{: #example_1 title="Example Illustrating Optimal Use of the ACL Model in a Network Context."}
+{: #example_1 title="Example Illustrating Optimal Use of the ACL Model in a Network Context (Message Body)"}
 
 
 ## Manageability: Impossibility to Use Aliases or Defined Sets
@@ -293,10 +292,10 @@ A candidate structure is shown in {{example_sets}}:
      |           +--rw code?             uint8
      |           +--rw rest-of-header?   binary
 ~~~
-{: #example_sets title="Examples of Defined Sets."}
+{: #example_sets title="Examples of Defined Sets"}
 
 
-Aliases may also be considered to managed resources that are identified by a combination of various parameters as shown in the candidate tree in {{example_alias}}.
+Aliases may also be considered to manage resources that are identified by a combination of various parameters as shown in the candidate tree in {{example_alias}}.
 Note that some aliases can be provided by decomposing them into separate sets.
 
 ~~~
@@ -311,7 +310,7 @@ Note that some aliases can be provided by decomposing them into separate sets.
         |  |     +--rw fqdn*         inet:domain-name
         |  |     +--rw uri*          inet:uri
 ~~~
-{: #example_alias title="Examples of Aliases."}
+{: #example_alias title="Examples of Aliases"}
 
 
 ## Bind ACLs to Devices, Not Only Interfaces
@@ -428,7 +427,7 @@ Clients that support both 'flags-bitmask' and 'flags' matching fields MUST NOT s
      }
    }
 ~~~
-{: #example_4 title="Example to Deny TCP Null Attack Messages"}
+{: #example_4 title="Example to Deny TCP Null Attack Messages (Request Body)"}
 
 ## Fragments Handling
 
@@ -490,7 +489,7 @@ packets.  The following ACEs are defined (in this order):
      }
    }
 ~~~
-{: #example_2 title="Example Illustrating Candidate Filtering of IPv4 Fragmented Packets."}
+{: #example_2 title="Example Illustrating Candidate Filtering of IPv4 Fragmented Packets (Message Body)"}
 
 {{example_3}} shows an example of the body of a POST request to allow the traffic destined to 2001:db8::/32 and UDP port number 53, but to drop all fragmented packets. The following ACEs are defined (in this order):
 
@@ -545,7 +544,7 @@ packets.  The following ACEs are defined (in this order):
      }
    }
 ~~~
-{: #example_3 title="Example Illustrating Candidate Filtering of IPv6 Fragmented Packets."}
+{: #example_3 title="Example Illustrating Candidate Filtering of IPv6 Fragmented Packets (Message Body)"}
 
 ## Rate-Limit Traffic
 
@@ -577,7 +576,7 @@ In order to support rate-limiting (see {{ps-rate}}), a new action called "rate-l
      }
    }
 ~~~
-{: #example_5 title="Example Rate-Limit Incoming TCP SYNs"}
+{: #example_5 title="Example Rate-Limit Incoming TCP SYNs (Message Body)."}
 
 ## ISID Filter
 
@@ -586,18 +585,18 @@ Bridged Local Area Networks [IEEE802.1ah]
 standard. However, instead of multiplexing VLANs, PBB
 duplicates the MAC layer of the customer frame and separates it from
 the provider domain, by encapsulating it in a 24 bit instance service
-identifier (I-SID). This allows for complete transparency between the
+identifier (I-SID). This provides for more transparency between the
 customer network and the provider network.
 
 The I-component forms the customer or access facing interface or
 routing instance. The I-component is responsible for mapping customer
-Ethernet traffic to the appropriate I-SID. In the netrowk is
+Ethernet traffic to the appropriate I-SID. In the network is
 mandatory to configure the default service identifier.
 
 Being able to filter by I-component Service identifier is a feature of
 the EVNP-PBB configuration.
 
-{{example_6}} shows an ACL example to ISID range filtering.
+{{example_6}} shows an ACL example to illustrate the ISID range filtering.
 
 ~~~ ascii-art
   {
@@ -628,7 +627,7 @@ the EVNP-PBB configuration.
     }
    }
 ~~~
-{: #example_6 title="Example ISID Filter"}
+{: #example_6 title="Example ISID Filter (Message Body)"}
 
 ## VLAN Filter
 
@@ -636,10 +635,10 @@ Being able to filter all packets that are bridged within a VLAN or that
 are routed into or out of a bridge domain is part of the VPN control
 requirements derived of the EVPN definition done in {{!RFC7209}}.
 So, all packets that are bridged within a VLAN or that are routed into or
-out of a VLAN can be captured, forwarded, translated or dicarded based
+out of a VLAN can be captured, forwarded, translated or discarded based
 on the network policy applied.
 
-{{example_7}} shows an ACL example to ilustrate how to apply a VLAN range filter.
+{{example_7}} shows an ACL example to illustrate how to apply a VLAN range filter.
 
 ~~~ ascii-art
   {
@@ -668,7 +667,7 @@ on the network policy applied.
     }
    }
 ~~~
-{: #example_7 title="Example of VLAN Filter"}
+{: #example_7 title="Example of VLAN Filter (Message Body)"}
 
 # YANG Modules
 
@@ -769,7 +768,7 @@ Many thanks to Jon Shallow and Miguel Cros for the review and comments to the do
 
 Thanks to Qiufang Ma and Victor Lopez for the comments and suggestions.
 
-The IANA-maintined model was generated using an XSLT stylesheet from the 'iana-yang' project (https://github.com/llhotka/iana-yang).
+The IANA-maintained model was generated using an XSLT stylesheet from the 'iana-yang' project (https://github.com/llhotka/iana-yang).
 
 This work is partially supported by the European Commission under   Horizon 2020 Secured autonomic traffic management for a Tera of SDN
  flows (Teraflow) project (grant agreement number 101015857).
