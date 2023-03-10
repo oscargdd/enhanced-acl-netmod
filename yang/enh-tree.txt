@@ -1,41 +1,51 @@
 module: ietf-acl-enh
   +--rw defined-sets
-     +--rw ipv4-prefix-sets
-     |  +--rw prefix-set* [name]
-     |     +--rw name           string
-     |     +--rw description?   string
-     |     +--rw prefix*        inet:ipv4-prefix
-     +--rw ipv6-prefix-sets
-     |  +--rw prefix-set* [name]
-     |     +--rw name           string
-     |     +--rw description?   string
-     |     +--rw prefix*        inet:ipv6-prefix
-     +--rw port-sets
-     |  +--rw port-set* [name]
-     |     +--rw name    string
-     |     +--rw port* [id]
-     |        +--rw id                              string
-     |        +--rw (port)?
-     |           +--:(port-range-or-operator)
-     |              +--rw port-range-or-operator
-     |                 +--rw (port-range-or-operator)?
-     |                    +--:(range)
-     |                    |  +--rw lower-port    inet:port-number
-     |                    |  +--rw upper-port    inet:port-number
-     |                    +--:(operator)
-     |                       +--rw operator?     operator
-     |                       +--rw port          inet:port-number
-     +--rw protocol-sets
-     |  +--rw protocol-set* [name]
-     |     +--rw name        string
-     |     +--rw protocol*   union
-     +--rw icmp-type-sets
-        +--rw icmp-type-set* [name]
-           +--rw name     string
-           +--rw types* [type]
-              +--rw type              uint8
-              +--rw code?             uint8
-              +--rw rest-of-header?   binary
+  |  +--rw ipv4-prefix-sets
+  |  |  +--rw prefix-set* [name]
+  |  |     +--rw name           string
+  |  |     +--rw description?   string
+  |  |     +--rw prefix*        inet:ipv4-prefix
+  |  +--rw ipv6-prefix-sets
+  |  |  +--rw prefix-set* [name]
+  |  |     +--rw name           string
+  |  |     +--rw description?   string
+  |  |     +--rw prefix*        inet:ipv6-prefix
+  |  +--rw port-sets
+  |  |  +--rw port-set* [name]
+  |  |     +--rw name    string
+  |  |     +--rw port* [id]
+  |  |        +--rw id                              string
+  |  |        +--rw (port)?
+  |  |           +--:(port-range-or-operator)
+  |  |              +--rw port-range-or-operator
+  |  |                 +--rw (port-range-or-operator)?
+  |  |                    +--:(range)
+  |  |                    |  +--rw lower-port    inet:port-number
+  |  |                    |  +--rw upper-port    inet:port-number
+  |  |                    +--:(operator)
+  |  |                       +--rw operator?     operator
+  |  |                       +--rw port          inet:port-number
+  |  +--rw protocol-sets
+  |  |  +--rw protocol-set* [name]
+  |  |     +--rw name        string
+  |  |     +--rw protocol*   union
+  |  +--rw icmp-type-sets
+  |     +--rw icmp-type-set* [name]
+  |        +--rw name     string
+  |        +--rw types* [type]
+  |           +--rw type              uint8
+  |           +--rw code?             uint8
+  |           +--rw rest-of-header?   binary
+  +--rw aliases
+     +--rw alias* [name]
+        +--rw name          string
+        +--rw prefix*       inet:ip-prefix
+        +--rw port-range* [lower-port]
+        |  +--rw lower-port    inet:port-number
+        |  +--rw upper-port?   inet:port-number
+        +--rw protocol*     uint8
+        +--rw fqdn*         inet:domain-name
+        +--rw uri*          inet:uri
 
   augment /acl:acls/acl:acl/acl:aces/acl:ace/acl:matches:
     +--rw (payload)?
@@ -45,6 +55,25 @@ module: ietf-acl-enh
              +--rw offset-end?   uint64
              +--rw operator?     operator
              +--rw prefix?       binary
+  augment /acl:acls/acl:acl/acl:aces/acl:ace/acl:matches/acl:l2:
+    +--rw vlan-filter {match-on-vlan-filter}?
+       +--rw frame-type?         string
+       +--rw (vlan-type)?
+          +--:(range)
+          |  +--rw lower-vlan    uint16
+          |  +--rw upper-vlan    uint16
+          +--:(operator)
+             +--rw operator?     packet-fields:operator
+             +--rw vlan*         uint16
+  augment /acl:acls/acl:acl/acl:aces/acl:ace/acl:matches/acl:l2:
+    +--rw isid-filter {match-on-isid-filter}?
+       +--rw (isid-type)?
+          +--:(range)
+          |  +--rw lower-isid    uint16
+          |  +--rw upper-isid    uint16
+          +--:(operator)
+             +--rw operator?     packet-fields:operator
+             +--rw isid*         uint16
   augment /acl:acls/acl:acl/acl:aces/acl:ace/acl:matches/acl:l3
             /acl:ipv4:
     +--rw ipv4-fragment
