@@ -22,7 +22,7 @@ module iana-icmp-types {
     "This YANG module translates IANA registry 'ICMP Type Numbers' to
      YANG derived types.
 
-     Copyright (c) 2020 IETF Trust and the persons identified as
+     Copyright (c) 2023 IETF Trust and the persons identified as
      authors of the code. All rights reserved.
 
      Redistribution and use in source and binary forms, with or
