@@ -63,7 +63,6 @@ module ietf-acl-enh {
   }
 
   feature match-on-vlan-filter {
-
     description
       "Match based on a VLAN range of vlan list is supported.";
   }
@@ -143,7 +142,7 @@ module ietf-acl-enh {
   identity psh {
     base tcp-flag;
     description
-      "The Push function flag is similar to the URG flag and tells 
+      "The Push function flag is similar to the URG flag and tells
        the receiver to process these packets as they are received
        instead of buffering them.";
     reference
@@ -279,7 +278,6 @@ module ietf-acl-enh {
     choice mode {
       description
         "Choice of how flags are indicated.";
-
       case explicit {
         leaf operator {
           type operator;
@@ -356,6 +354,58 @@ module ietf-acl-enh {
     }
   }
 
+  grouping alias {
+    description
+      "Specifies an alias.";
+    leaf-list prefix {
+      type inet:ip-prefix;
+      description
+        "IPv4 or IPv6 prefix of the alias.";
+    }
+    list port-range {
+      key "lower-port";
+      description
+        "Port range.  When only lower-port is
+         present, it represents a single port number.";
+      leaf lower-port {
+        type inet:port-number;
+        mandatory true;
+        description
+          "Lower port number of the port range.";
+      }
+      leaf upper-port {
+        type inet:port-number;
+        must '. >= ../lower-port' {
+          error-message
+            "The upper-port number must be greater than
+             or equal to the lower-port number.";
+        }
+        description
+          "Upper port number of the port range.";
+      }
+    }
+    leaf-list protocol {
+      type uint8;
+      description
+        "Identifies the target protocol number.
+
+         Values are taken from the IANA protocol registry:
+         https://www.iana.org/assignments/protocol-numbers/
+
+         For example, 6 for TCP or 17 for UDP.";
+    }
+    leaf-list fqdn {
+      type inet:domain-name;
+      description
+        "FQDN identifying the target.";
+    }
+    leaf-list uri {
+      type inet:uri;
+      description
+        "URI identifying the target.";
+    }
+  }
+
   augment "/acl:acls/acl:acl/acl:aces/acl:ace"
         + "/acl:matches" {
     description
@@ -378,15 +428,13 @@ module ietf-acl-enh {
       "Handle the augmentation of MAC VLAN Filter.";
     container vlan-filter {
       if-feature "match-on-vlan-filter";
-
       description
         "Indicates how to handle MAC VLANs.";
-
       leaf frame-type {
         type string;
         description
-          "Entering the frame type allows the 
-          filter to match a specific type of frame format";
+          "Entering the frame type allows the
+           filter to match a specific type of frame format";
       }
       choice vlan-type {
         description
@@ -428,19 +476,16 @@ module ietf-acl-enh {
     }
   }
 
-
   augment "/acl:acls/acl:acl/acl:aces"
         + "/acl:ace/acl:matches/acl:l2" {
     description
       "Handle the augmentation of ISID Filter.";
     container isid-filter {
       if-feature "match-on-isid-filter";
-     
       description
-        "Indicates how to handle ISID filters. 
-        The I-component is responsible for mapping customer 
-        Ethernet traffic to the appropriate ISID.";
-      
+        "Indicates how to handle ISID filters.
+         The I-component is responsible for mapping customer
+         Ethernet traffic to the appropriate ISID.";
       choice isid-type {
         description
           "ISID definition from range or operator.";
@@ -715,7 +760,7 @@ module ietf-acl-enh {
         leaf-list protocol {
           type union {
             type uint8;
-            type string; 
+            type string;
           }
           description
             "Value of the protocol set.";
@@ -744,6 +789,21 @@ module ietf-acl-enh {
           uses packet-fields:acl-icmp-header-fields;
         }
       }
+    }
+  }
+  container aliases {
+    description
+      "Top-levl container for aliases.";
+    list alias {
+      key "name";
+      description
+        "List of aliases.";
+      leaf name {
+        type string;
+        description
+          "The name of the alias.";
+      }
+      uses alias;
     }
   }
 }
