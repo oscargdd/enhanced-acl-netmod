@@ -45,9 +45,9 @@ The document also defines an IANA-maintained module for ICMP types.
 
 # Introduction
 
-{{!RFC8519}} defines Access control lists (ACLs) as a
+{{!RFC8519}} defines Access Control Lists (ACLs) as a
 user-ordered set of filtering rules. The model targets the
-configuration of the filtering behaviour of a device. However, the
+configuration of the filtering behavior of a device. However, the
 model structure, as defined in {{!RFC8519}}, suffers from a set of limitations. This
 document describes these limitations and proposes an enhanced ACL
 structure. The YANG module in this document is solely based
@@ -58,7 +58,7 @@ The motivation of such enhanced ACL structure is discussed in detail in {{ps}}.
 When managing ACLs, it is common for network operators to group
 match elements in pre-defined sets. The consolidation into group matches
 allows for reducing the number of rules, especially in large scale
-networks. If it is needed, for example, to find a match against 100
+networks. If, for example, it is needed to find a match against 100
 IP addresses (or prefixes), a single rule will suffice rather than creating
 individual Access Control Entries (ACEs) for each IP address (or prefix). In
 doing so, implementations would optimize the performance of matching
@@ -68,8 +68,7 @@ The enhanced ACL structure is also meant to facilitate the management of
 network operators. Instead of entering the IP address or port number
 literals, using user-named lists decouples the creation of the rule
 from the management of the sets. Hence, it is possible to remove/add
- entries to the list without redefining the (parent) ACL
-rule.
+ entries to the list without redefining the (parent) ACL rule.
 
 In addition, the notion of Access Control List (ACL) and defined sets
  is generalized so that it is not device-specific as per {{!RFC8519}}.  ACLs
@@ -108,13 +107,13 @@ In addition to the terms defined in {{!RFC8519}}, this document makes use of the
 
 ## Suboptimal Configuration: Lack of Support for Lists of Prefixes {#ps-sets}
 
-IP prefix related data nodes, e.g., "destination-ipv4-network" or
+IP prefix-related data nodes, e.g., "destination-ipv4-network" or
    "destination-ipv6-network", do not support handling a list of IP
    prefixes, which may then lead to having to support large numbers of ACL entries in a configuration file.
 
 The same issue
 is encountered when ACLs have to be in place to mitigate DDoS
-attacks (e.g., {{?RFC9132}} when a set of sources are involved in such
+attacks (e.g., {{?RFC9132}}) when a set of sources are involved in such
 an attack. The situation is even worse when both a list of sources
 and destination prefixes are involved.
 
@@ -325,8 +324,8 @@ The ACL name must, thus, be unique at the scale of the network, but the same nam
 
 ## Partial or Lack of IPv4/IPv6 Fragment Handling {#ps-frag}
 
-{{!RFC8519}} does not support fragment handling capability for IPv6 but
-offers a partial support for IPv4 by means of 'flags'.  Nevertheless,
+{{!RFC8519}} does not support fragment handling for IPv6 but
+offers a partial support for IPv4  through the use of 'flags'.  Nevertheless,
 the use of 'flags' is problematic since it does not allow a bitmask
 to be defined.  For example, setting other bits not covered by the
 'flags' filtering clause in a packet will allow that packet to get
@@ -347,7 +346,7 @@ Defining a new IPv4/IPv6 matching field called 'fragment' is thus required to ef
 
  {{!RFC8519}} specifies that forwarding actions can be 'accept' (i.e., accept matching
    traffic), 'drop' (i.e., drop matching traffic without sending any
-   ICMP error message), or 'reject' (i.e., drop matching traffic and send an ICMP error message to the source). However, there are situations where the matching traffic can be accepted, but with a rate-limit policy. Such capability is not currently supported by {{!RFC8519}}.
+   ICMP error message), or 'reject' (i.e., drop matching traffic and send an ICMP error message to the source). However, there are situations where the matching traffic can be accepted, but with a rate-limit policy. This capability is not supported by {{!RFC8519}}.
 
 ## Payload-based Filtering {#ps-pf}
 
@@ -358,7 +357,7 @@ Likewise, the current version of the ACL model does not support filtering of enc
 ## Reuse the ACLs Content Across Several Devices
 
 Having a global network view of the ACLs is highly valuable for service providers. An ACL could be defined and applied
-following the hierarchy of the network topology. So, an ACL can be
+based on the network topology hierarchy. So, an ACL can be
 defined at the network level and, then, that same ACL can be used (or referenced to)
 in several devices (including termination points) within the same network.
 
@@ -550,9 +549,7 @@ packets.  The following ACEs are defined (in this order):
 
 ## Rate-Limit Traffic
 
-In order to support rate-limiting (see {{ps-rate}}), a new action called "rate-limit" is defined.
-
-{{example_5}} shows an ACL example to rate-limit incoming SYNs during a SYN flood attack.
+In order to support rate-limiting (see {{ps-rate}}), a new action called "rate-limit" is defined. {{example_5}} shows an ACL example to rate-limit incoming SYNs during a SYN flood attack.
 
 ~~~
   {
@@ -588,7 +585,7 @@ In order to support rate-limiting (see {{ps-rate}}), a new action called "rate-l
 
 
 ~~~
-<CODE BEGINS> file "ietf-acl-enh@2022-10-24.yang"
+<CODE BEGINS> file ietf-acl-enh@2022-10-24.yang
 {::include ./yang/ietf-acl-enh.yang}
 <CODE ENDS>
 ~~~
@@ -667,7 +664,7 @@ This document requests IANA to register the following YANG modules in
 # Initial Version of the The ICMP Type IANA-Maintained Module {#iana-icmp}
 
 ~~~
-<CODE BEGINS> file "iana-icmp-types@2020-09-25.yang"
+<CODE BEGINS> file iana-icmp-types@2020-09-25.yang
 
 {::include ./yang/iana-icmp-types.yang}
 
@@ -676,9 +673,9 @@ This document requests IANA to register the following YANG modules in
 
 # Acknowledgements
 
-Many thanks to Jon Shallow and Miguel Cros for the review and comments to the document, incuding priror to publishing the document.
+Many thanks to Jon Shallow and Miguel Cros for the review and comments to the document, including prior to publishing the document.
 
-Thanks to Qiufang Ma for the comments and suggestions.
+Thanks to Qiufang Ma and Victor Lopez for the comments and suggestions.
 
 This work is partially supported by the European Commission under   Horizon 2020 Secured autonomic traffic management for a Tera of SDN
  flows (Teraflow) project (grant agreement number 101015857).
