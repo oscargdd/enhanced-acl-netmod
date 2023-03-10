@@ -24,15 +24,15 @@ module ietf-acl-enh {
   organization
     "IETF NETMOD Working Group";
   contact
-    "WG Web:   <https://datatracker.ietf.org/wg/netmod/>
-     WG List:  <mailto:netmod@ietf.org>
+    "WG Web:   https://datatracker.ietf.org/wg/netmod/
+     WG List:  mailto:netmod@ietf.org
 
      Author:    Mohamed Boucadair
-               <mailto:mohamed.boucadair@orange.com>
+               mailto:mohamed.boucadair@orange.com
      Author:    Samier Barguil
-               <mailto:samier.barguilgiraldo.ext@telefonica.com>
+               mailto:samier.barguilgiraldo.ext@telefonica.com
      Author:    Oscar Gonzalez de Dios
-               <mailto:oscar.gonzalezdedios@telefonica.com>";
+               mailto:oscar.gonzalezdedios@telefonica.com";
   description
     "This module contains YANG definitions for enhanced ACLs.
 
@@ -98,7 +98,7 @@ module ietf-acl-enh {
       "The offset start right after the end of the transport
        payload. For example, this represents the beginning of the
        TCP data right after any TCP options or the beginning of
-       the UDP payload righte after the UDP header.";
+       the UDP payload right after the UDP header.";
   }
 
   identity tcp-flag {
@@ -143,8 +143,8 @@ module ietf-acl-enh {
   identity psh {
     base tcp-flag;
     description
-      "The Push function flag is similar to the URG flag and tells the
-       receiver to process these packets as they are received
+      "The Push function flag is similar to the URG flag and tells 
+       the receiver to process these packets as they are received
        instead of buffering them.";
     reference
       "RFC 9293: Transmission Control Protocol (TCP), Section 3.1";
@@ -715,10 +715,11 @@ module ietf-acl-enh {
         leaf-list protocol {
           type union {
             type uint8;
-            type string; //Check if we can reuse an IANA-maintained module
+            type string; 
           }
           description
-            "Value of the protocl set.";
+            "Value of the protocol set.";
+          //Check if we can reuse an IANA-maintained module
         }
       }
     }
