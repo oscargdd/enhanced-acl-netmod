@@ -634,12 +634,12 @@ the EVNP-PBB configuration.
 
 Being able to filter all packets that are bridged within a VLAN or that
 are routed into or out of a bridge domain is part of the VPN control
-requirements derived of the EVPN definition done in {{!RFC7209}}. 
-So, all packets that are bridged within a VLAN or that are routed into or 
-out of a VLAN can be captured, forwarded, translated or dicarded based 
+requirements derived of the EVPN definition done in {{!RFC7209}}.
+So, all packets that are bridged within a VLAN or that are routed into or
+out of a VLAN can be captured, forwarded, translated or dicarded based
 on the network policy applied.
 
-{{example_7}} shows an ACL example to apply a VLAN range Filter.
+{{example_7}} shows an ACL example to ilustrate how to apply a VLAN range filter.
 
 ~~~ ascii-art
   {
@@ -668,7 +668,7 @@ on the network policy applied.
     }
    }
 ~~~
-{: #example_7 title="Example VLAN Filter"}
+{: #example_7 title="Example of VLAN Filter"}
 
 # YANG Modules
 
@@ -677,6 +677,7 @@ on the network policy applied.
 
 ~~~
 <CODE BEGINS> file ietf-acl-enh@2022-10-24.yang
+
 {::include ./yang/ietf-acl-enh.yang}
 <CODE ENDS>
 ~~~
