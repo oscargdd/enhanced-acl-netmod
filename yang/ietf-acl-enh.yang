@@ -62,6 +62,17 @@ module ietf-acl-enh {
       "Match based on a pattern is supported.";
   }
 
+  feature match-on-vlan-filter {
+
+    description
+      "Match based on a VLAN range of vlan list is supported.";
+  }
+
+  feature match-on-isid-filter {
+    description
+      "Match based on a ISID range of vlan list is supported.";
+  }
+
   identity offset-type {
     description
       "Base identity for payload offset type.";
@@ -268,6 +279,7 @@ module ietf-acl-enh {
     choice mode {
       description
         "Choice of how flags are indicated.";
+
       case explicit {
         leaf operator {
           type operator;
@@ -356,6 +368,115 @@ module ietf-acl-enh {
         description
           "Rule to perform payload-based match.";
         uses payload;
+      }
+    }
+  }
+
+  augment "/acl:acls/acl:acl/acl:aces"
+        + "/acl:ace/acl:matches/acl:l2" {
+    description
+      "Handle the augmentation of MAC VLAN Filter.";
+    container vlan-filter {
+      if-feature "match-on-vlan-filter";
+
+      description
+        "Indicates how to handle MAC VLANs.";
+
+      leaf frame-type {
+        type string;
+        description
+          "Entering the frame type allows the 
+          filter to match a specific type of frame format";
+      }
+      choice vlan-type {
+        description
+          "vlan definition from range or operator.";
+        case range {
+          leaf lower-vlan {
+            type uint16;
+            must '. <= ../upper-vlan' {
+              error-message
+                "The lower-vlan must be less than or equal to
+                 the upper-vlan.";
+            }
+            mandatory true;
+            description
+              "Lower boundary for a vlan.";
+          }
+          leaf upper-vlan {
+            type uint16;
+            mandatory true;
+            description
+              "Upper boundary for a vlan.";
+          }
+        }
+        case operator {
+          leaf operator {
+            type packet-fields:operator;
+            default "eq";
+            description
+              "Operator to be applied on the vlan below.";
+          }
+          leaf-list vlan {
+            type uint16;
+            description
+              "vlan number along with the operator on which to
+               match.";
+          }
+        }
+      }
+    }
+  }
+
+
+  augment "/acl:acls/acl:acl/acl:aces"
+        + "/acl:ace/acl:matches/acl:l2" {
+    description
+      "Handle the augmentation of ISID Filter.";
+    container isid-filter {
+      if-feature "match-on-isid-filter";
+     
+      description
+        "Indicates how to handle ISID filters. 
+        The I-component is responsible for mapping customer 
+        Ethernet traffic to the appropriate ISID.";
+      
+      choice isid-type {
+        description
+          "ISID definition from range or operator.";
+        case range {
+          leaf lower-isid {
+            type uint16;
+            must '. <= ../upper-isid' {
+              error-message
+                "The lower-vlan must be less than or equal to
+                 the upper-isid.";
+            }
+            mandatory true;
+            description
+              "Lower boundary for a ISID.";
+          }
+          leaf upper-isid {
+            type uint16;
+            mandatory true;
+            description
+              "Upper boundary for a ISID.";
+          }
+        }
+        case operator {
+          leaf operator {
+            type packet-fields:operator;
+            default "eq";
+            description
+              "Operator to be applied on the ISID below.";
+          }
+          leaf-list isid {
+            type uint16;
+            description
+              "ISID number along with the operator on which to
+               match.";
+          }
+        }
       }
     }
   }

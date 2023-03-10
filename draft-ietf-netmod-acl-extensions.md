@@ -199,11 +199,11 @@ and destination prefixes are involved.
 
 Such a configuration is suboptimal for both:
 
-- Network controllers that
-   need to manipulate large files.  All or a subset for this
-   configuration will need to be passed to the underlying network
-   devices
-- Devices may receive such a configuration and thus will need to maintain it locally.
+- Network controllers that need to manipulate large files. All or a
+  subset for this configuration will need to be passed to the
+  underlying network devices.
+- Devices may receive such a configuration and thus will need to
+  maintain it locally.
 
 {{example_1}} depicts an example of an optimized structure:
 
@@ -579,6 +579,97 @@ In order to support rate-limiting (see {{ps-rate}}), a new action called "rate-l
 ~~~
 {: #example_5 title="Example Rate-Limit Incoming TCP SYNs"}
 
+## ISID Filter
+
+Provider backbone bridging (PBB) was originally defined as Virtual
+Bridged Local Area Networks [IEEE802.1ah]
+standard. However, instead of multiplexing VLANs, PBB
+duplicates the MAC layer of the customer frame and separates it from
+the provider domain, by encapsulating it in a 24 bit instance service
+identifier (I-SID). This allows for complete transparency between the
+customer network and the provider network.
+
+The I-component forms the customer or access facing interface or
+routing instance. The I-component is responsible for mapping customer
+Ethernet traffic to the appropriate I-SID. In the netrowk is
+mandatory to configure the default service identifier.
+
+Being able to filter by I-component Service identifier is a feature of
+the EVNP-PBB configuration.
+
+{{example_6}} shows an ACL example to ISID range filtering.
+
+~~~ ascii-art
+  {
+    "ietf-acces-control-list:acls": {
+          "acl": [
+            {
+              "name": "test",
+              "aces": {
+                "ace": [
+                  {
+                    "name": "1",
+                    "matches": {
+                      "ietf-acl-enh:isid-filter": {
+                        "lower-isid": 100,
+                        "upper-isid": 200
+                      }
+                    },
+                    "actions": {
+                      "forwarding": "ietf-acces-control-list:accept"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    }
+   }
+~~~
+{: #example_6 title="Example ISID Filter"}
+
+## VLAN Filter
+
+Being able to filter all packets that are bridged within a VLAN or that
+are routed into or out of a bridge domain is part of the VPN control
+requirements derived of the EVPN definition done in {{!RFC7209}}.
+So, all packets that are bridged within a VLAN or that are routed into or
+out of a VLAN can be captured, forwarded, translated or dicarded based
+on the network policy applied.
+
+{{example_7}} shows an ACL example to ilustrate how to apply a VLAN range filter.
+
+~~~ ascii-art
+  {
+    "ietf-acces-control-list:acls": {
+      "acl": [
+        {
+          "name": "VLAN_FILTER",
+          "aces": {
+            "ace": [
+              {
+                "name": "1",
+                "matches": {
+                  "ietf-acl-enh:vlan-filter": {
+                    "lower-vlan": 10,
+                    "upper-vlan": 20
+                  }
+                },
+                "actions": {
+                  "forwarding": "ietf-acces-control-list:accept"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+   }
+~~~
+{: #example_7 title="Example of VLAN Filter"}
+
 # YANG Modules
 
 ## Enhanced ACL
@@ -586,6 +677,7 @@ In order to support rate-limiting (see {{ps-rate}}), a new action called "rate-l
 
 ~~~
 <CODE BEGINS> file ietf-acl-enh@2022-10-24.yang
+
 {::include ./yang/ietf-acl-enh.yang}
 <CODE ENDS>
 ~~~
@@ -594,12 +686,12 @@ In order to support rate-limiting (see {{ps-rate}}), a new action called "rate-l
 # Security Considerations
 
 The YANG modules specified in this document define a schema for data
-   that is designed to be accessed via network management protocol such
-   as NETCONF {{!RFC6241}} or RESTCONF {{!RFC8040}}.  The lowest NETCONF layer
-   is the secure transport layer, and the mandatory-to-implement secure
-   transport is Secure Shell (SSH) {{!RFC6242}}.  The lowest RESTCONF layer
-   is HTTPS, and the mandatory-to-implement secure transport is TLS
-   {{!RFC8446}}.
+ that is designed to be accessed via network management protocol such
+ as NETCONF {{!RFC6241}} or RESTCONF {{!RFC8040}}.  The lowest NETCONF layer
+ is the secure transport layer, and the mandatory-to-implement secure
+ transport is Secure Shell (SSH) {{!RFC6242}}.  The lowest RESTCONF layer
+ is HTTPS, and the mandatory-to-implement secure transport is TLS
+ {{!RFC8446}}.
 
 The Network Configuration Access Control Model (NACM) {{!RFC8341}} provides the means to restrict access for particular NETCONF or RESTCONF users to a preconfigured subset of all available NETCONF or RESTCONF protocol operations and content.
 
