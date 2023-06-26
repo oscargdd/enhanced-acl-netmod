@@ -21,6 +21,12 @@ module ietf-acl-enh {
                  Control Lists (ACLs), Section 4.2";
   }
 
+  import ietf-routing-types { 
+    prefix rt-types;
+    reference
+      "RFC 8294: Common YANG Data Types for the Routing Area";
+    }
+
   organization
     "IETF NETMOD Working Group";
   contact
@@ -71,6 +77,12 @@ module ietf-acl-enh {
     description
       "Match based on a ISID range of vlan list is supported.";
   }
+
+  feature match-on-mpls {
+    description
+      "The device can support matching on MPLS headers.";
+  }
+
 
   identity offset-type {
     description
@@ -171,6 +183,12 @@ module ietf-acl-enh {
       "Congestion Window Reduced flag bit";
     reference
       "RFC 9293: Transmission Control Protocol (TCP), Section 3.1";
+  }
+
+  identity mpls-acl-type {
+    base acl:acl-base;
+    description
+      "An ACL that matches on fields from the MPLS header.";
   }
 
   typedef operator {
@@ -322,6 +340,68 @@ module ietf-acl-enh {
         "What fragment type to look for.";
     }
   }
+
+grouping mpls-match-parameters-config {
+    description
+      "Configuration parameters relating to matches within
+      MPLS header fields.";
+
+    leaf traffic-class {
+      type uint8 {
+        range "0..7";
+      }
+      description
+        "The value of the MPLS traffic class (TC) bits,
+        formerly known as the EXP bits.";
+    }
+
+    leaf label-position {
+      type identityref {
+        base label-position;
+      }
+      description 
+      "Position of the label";
+    }
+
+    leaf start-label-value {
+      type rt-types:mpls-label;
+      description 
+      "Match MPLS label value on the MPLS header.
+      The usage of this field indicated the upper 
+      range value in the top of the stack.
+      The 20-bit label value in an MPLS label 
+      stack as specified in RFC 3032.  
+      This label value does not include the
+      encodings of Traffic Class and TTL.";
+    }
+    
+    leaf end-label-value {
+      type rt-types:mpls-label;
+      description 
+      "Match MPLS label value on the MPLS header.
+      The usage of this field indicated the upper 
+      range value in the top of the stack. 
+      The 20-bit label value in an MPLS label 
+      stack as specified in RFC 3032.  
+      This label value does not include the
+      encodings of Traffic Class and TTL.";
+    }
+
+    leaf label-block-name {
+      type string;
+      description 
+      "Reference to a label block predefiend in the
+      equipment.";
+    }
+    
+    leaf ttl-value {
+      type uint8;
+      description 
+      "Time-to-live MPLS packet value match.";
+      reference
+        "RFC 3032: MPLS Label Stack Encoding.";
+      }
+    }
 
   grouping payload {
     description
@@ -647,6 +727,23 @@ module ietf-acl-enh {
       description
         "Indicates a rate-limit for the matched traffic.";
     }
+  }
+
+  augment "/acl:acls/acl:acl/acl:aces/acl:ace/acl:matches" {
+    description
+    "Adds MPLS matches.";
+
+    choice mpls {
+      container mpls-values {
+        if-feature "mpls-packet-fields:match-on-mpls";
+        uses mpls-match-parameters-config;
+        description
+          "Rule set that matches MPLS headers.";
+      }
+      description
+        "Match MPLS headers, for example, label values";          
+
+    } 
   }
 
   container defined-sets {
