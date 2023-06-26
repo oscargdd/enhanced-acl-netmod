@@ -372,6 +372,10 @@ requirements, e.g.:
   logical system, or a virtual node. ACLs can be applied in physical and
   logical infrastructure.
 
+## Match MPLS headers
+
+The ACLs could be used to create rules to match MPLS fields on a packet.
+
 # Overall Module Structure
 
 ## Enhanced ACL
@@ -668,6 +672,28 @@ on the network policy applied.
    }
 ~~~
 {: #example_7 title="Example of VLAN Filter (Message Body)"}
+
+## Match MPLS headers
+
+   The ACLs could be used to create rules to match MPLS fields on a packet. The MPLS headers defined in [@!RFC3032] and [@!RFC5462] contains the following fields:
+
+- Traffic Class: 3 bits 'EXP' Renamed to 'Traffic Class Field."
+- Label Value: This 20-bit field carries the actual value of the Label.
+- TTL: This eight-bit field is used to encode a time-to-live value.
+
+The candidate structure to support the functionality is:
+~~~
+  augment /acl:acls/acl:acl/acl:aces/acl:ace/acl:matches:
+    +--rw (mpls)?
+       +--:(mpls-values)
+          +--rw mpls-values {match-on-mpls}?
+             +--rw traffic-class?       uint8
+             +--rw upper-label-range?   uint32
+             +--rw lower-label-range?   uint32
+             +--rw ttl-value?           uint8
+~~~
+
+The Yang module 
 
 # YANG Modules
 
