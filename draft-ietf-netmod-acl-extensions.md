@@ -675,13 +675,13 @@ on the network policy applied.
 
 ## Match MPLS headers
 
-   The ACLs could be used to create rules to match MPLS fields on a packet. The MPLS headers defined in [@!RFC3032] and [@!RFC5462] contains the following fields:
+The ACLs could be used to create rules to match MPLS fields on a packet. The MPLS headers defined in [@!RFC3032] and [@!RFC5462] contains the following fields:
 
 - Traffic Class: 3 bits 'EXP' Renamed to 'Traffic Class Field."
 - Label Value: This 20-bit field carries the actual value of the Label.
 - TTL: This eight-bit field is used to encode a time-to-live value.
 
-The candidate structure to support the functionality is:
+The structure to support the functionality is shown in {{example_8}} :
 ~~~
   augment /acl:acls/acl:acl/acl:aces/acl:ace/acl:matches:
     +--rw (mpls)?
@@ -692,8 +692,7 @@ The candidate structure to support the functionality is:
              +--rw lower-label-range?   uint32
              +--rw ttl-value?           uint8
 ~~~
-
-The Yang module 
+{: #example_8 title="MPLS header match"}
 
 # YANG Modules
 
