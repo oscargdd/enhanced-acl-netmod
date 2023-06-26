@@ -191,6 +191,23 @@ module ietf-acl-enh {
       "An ACL that matches on fields from the MPLS header.";
   }
 
+  identity label-position {
+    description
+      "Base identity for deriving label positioning.";
+  }
+
+  identity top {
+    base label-position;
+    description
+      "Top of the stack.";
+  }
+
+  identity bottom {
+    base label-position;
+    description
+      "Bottom of the stack.";
+  }
+
   typedef operator {
     type bits {
       bit not {
