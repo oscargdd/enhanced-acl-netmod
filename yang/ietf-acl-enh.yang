@@ -735,7 +735,7 @@ grouping mpls-match-parameters-config {
 
     choice mpls {
       container mpls-values {
-        if-feature "mpls-packet-fields:match-on-mpls";
+        if-feature "match-on-mpls";
         uses mpls-match-parameters-config;
         description
           "Rule set that matches MPLS headers.";
