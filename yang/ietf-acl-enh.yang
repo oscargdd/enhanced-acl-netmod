@@ -531,7 +531,7 @@ grouping mpls-match-parameters-config {
     choice alias {
       description
         "Match on aliases.";
-      leaf-list alias {
+      leaf-list alias-name {
         type alias-ref;
         description
           "A set of aliases.";
