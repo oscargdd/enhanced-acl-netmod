@@ -372,6 +372,10 @@ requirements, e.g.:
   logical system, or a virtual node. ACLs can be applied in physical and
   logical infrastructure.
 
+## Match MPLS Headers
+
+The ACLs could be used to create rules to match MPLS fields on a packet.
+
 # Overall Module Structure
 
 ## Enhanced ACL
@@ -669,10 +673,33 @@ on the network policy applied.
 ~~~
 {: #example_7 title="Example of VLAN Filter (Message Body)"}
 
+## Match MPLS Headers
+
+The ACL models can be used to create rules to match MPLS fields on a packet. The MPLS headers defined in {{!RFC3032}} and {{!RFC5462}} contains the following fields:
+
+- Traffic Class: 3 bits 'EXP' renamed to 'Traffic Class Field."
+- Label Value: A 20-bit field that carries the actual value of the MPLS Label.
+- TTL: An eight-bit field that is used to encode a time-to-live value.
+
+The structure of the MPLS ACL subtree is shown in {{example_8}}:
+
+~~~
+  augment /acl:acls/acl:acl/acl:aces/acl:ace/acl:matches:
+    +--rw (mpls)?
+       +--:(mpls-values)
+          +--rw mpls-values {match-on-mpls}?
+             +--rw traffic-class?       uint8
+             +--rw upper-label-range?   uint32
+             +--rw lower-label-range?   uint32
+             +--rw ttl-value?           uint8
+~~~
+{: #example_8 title="MPLS Header Match Subtree"}
+
 # YANG Modules
 
 ## Enhanced ACL
 
+This model imports types from {{!RFC6991}}, {{!RFC8519}}, and {{!RFC8294}}.
 
 ~~~
 <CODE BEGINS> file ietf-acl-enh@2022-10-24.yang
@@ -680,7 +707,6 @@ on the network policy applied.
 {::include ./yang/ietf-acl-enh.yang}
 <CODE ENDS>
 ~~~
-
 
 # Security Considerations
 
