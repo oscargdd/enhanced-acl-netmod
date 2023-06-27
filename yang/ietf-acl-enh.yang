@@ -78,6 +78,11 @@ module ietf-acl-enh {
       "Match based on a ISID range of vlan list is supported.";
   }
 
+  feature match-on-alias {
+    description
+      "Match based on aliases.";
+  }
+
   feature match-on-mpls {
     description
       "Match based on MPLS headers.";
@@ -306,6 +311,14 @@ module ietf-acl-enh {
       "Defines a reference to an ICMP type set.";
   }
 
+  typedef alias-ref {
+    type leafref {
+      path "/acl-enh:aliases/acl-enh:alias/acl-enh:name";
+    }
+    description
+      "Defines a reference to an alias.";
+  }
+
   grouping tcp-flags {
     description
       "Operations on TCP flags.";
@@ -513,6 +526,22 @@ grouping mpls-match-parameters-config {
         description
           "Rule to perform payload-based match.";
         uses payload;
+      }
+    }
+    choice alias {
+      description
+        "Match on aliases.";
+      container alias {
+        if-feature "match-on-alias";
+        description
+          "Rule to perform alias-based match.";
+        leaf-list alias-ref {
+          type identityref {
+            base alias-ref;
+          }
+          description
+            "A list of aliases.";
+        }
       }
     }
   }
