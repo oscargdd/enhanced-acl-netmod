@@ -685,12 +685,15 @@ The structure of the MPLS ACL subtree is shown in {{example_8}}:
 
 ~~~
   augment /acl:acls/acl:acl/acl:aces/acl:ace/acl:matches:
+    ...
     +--rw (mpls)?
        +--:(mpls-values)
           +--rw mpls-values {match-on-mpls}?
              +--rw traffic-class?       uint8
+             +--rw label-position       identityref
              +--rw upper-label-range?   uint32
              +--rw lower-label-range?   uint32
+             +--rw label-block-name     string
              +--rw ttl-value?           uint8
 ~~~
 {: #example_8 title="MPLS Header Match Subtree"}
