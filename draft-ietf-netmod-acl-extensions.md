@@ -699,6 +699,8 @@ The structure of the MPLS ACL subtree is shown in {{example_8}}:
 
 ## Enhanced ACL
 
+This model imports types from {{!RFC6991}}, {{!RFC8519}}, and {{!RFC8294}}.
+
 ~~~
 <CODE BEGINS> file ietf-acl-enh@2022-10-24.yang
 
