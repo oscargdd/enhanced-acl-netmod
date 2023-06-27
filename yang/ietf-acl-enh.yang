@@ -80,9 +80,8 @@ module ietf-acl-enh {
 
   feature match-on-mpls {
     description
-      "The device can support matching on MPLS headers.";
+      "Match based on MPLS headers.";
   }
-
 
   identity offset-type {
     description
@@ -193,19 +192,19 @@ module ietf-acl-enh {
 
   identity label-position {
     description
-      "Base identity for deriving label positioning.";
+      "Base identity for deriving MPLS label position.";
   }
 
   identity top {
     base label-position;
     description
-      "Top of the stack.";
+      "Top of the label stack.";
   }
 
   identity bottom {
     base label-position;
     description
-      "Bottom of the stack.";
+      "Bottom of the label stack.";
   }
 
   typedef operator {
@@ -360,8 +359,7 @@ module ietf-acl-enh {
 
 grouping mpls-match-parameters-config {
     description
-      "Configuration parameters relating to matches within
-      MPLS header fields.";
+      "Parameters for the configuration of MPLS match rules.";
 
     leaf traffic-class {
       type uint8 {
@@ -369,7 +367,7 @@ grouping mpls-match-parameters-config {
       }
       description
         "The value of the MPLS traffic class (TC) bits,
-        formerly known as the EXP bits.";
+         formerly known as the EXP bits.";
     }
 
     leaf label-position {
@@ -377,46 +375,46 @@ grouping mpls-match-parameters-config {
         base label-position;
       }
       description 
-      "Position of the label";
+        "Position of the label";
     }
 
     leaf start-label-value {
       type rt-types:mpls-label;
       description 
-      "Match MPLS label value on the MPLS header.
-      The usage of this field indicated the upper 
-      range value in the top of the stack.
-      The 20-bit label value in an MPLS label 
-      stack as specified in RFC 3032.  
-      This label value does not include the
-      encodings of Traffic Class and TTL.";
+        "Match MPLS label value on the MPLS header.
+         The usage of this field indicated the upper 
+         range value in the top of the stack.
+         This label value does not include the
+         encodings of Traffic Class and TTL.";
+       reference
+         "RFC 3032: MPLS Label Stack Encoding";
     }
     
     leaf end-label-value {
       type rt-types:mpls-label;
       description 
-      "Match MPLS label value on the MPLS header.
-      The usage of this field indicated the upper 
-      range value in the top of the stack. 
-      The 20-bit label value in an MPLS label 
-      stack as specified in RFC 3032.  
-      This label value does not include the
-      encodings of Traffic Class and TTL.";
+        "Match MPLS label value on the MPLS header.
+         The usage of this field indicated the upper 
+         range value in the top of the stack. 
+         This label value does not include the
+         encodings of Traffic Class and TTL.";
+       reference
+         "RFC 3032: MPLS Label Stack Encoding";
     }
 
     leaf label-block-name {
       type string;
       description 
       "Reference to a label block predefiend in the
-      equipment.";
+       implementation.";
     }
     
     leaf ttl-value {
       type uint8;
       description 
-      "Time-to-live MPLS packet value match.";
+        "Time-to-live MPLS packet value match.";
       reference
-        "RFC 3032: MPLS Label Stack Encoding.";
+        "RFC 3032: MPLS Label Stack Encoding";
       }
     }
 
