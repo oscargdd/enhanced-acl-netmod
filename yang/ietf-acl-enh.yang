@@ -531,17 +531,12 @@ grouping mpls-match-parameters-config {
     choice alias {
       description
         "Match on aliases.";
-      container alias {
-        if-feature "match-on-alias";
-        description
-          "Rule to perform alias-based match.";
-        leaf-list alias-ref {
-          type identityref {
-            base alias-ref;
-          }
-          description
-            "A list of aliases.";
+      leaf-list alias-ref {
+        type identityref {
+          base alias-ref;
         }
+        description
+          "A list of aliases.";
       }
     }
   }
