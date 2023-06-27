@@ -49,12 +49,23 @@ module: ietf-acl-enh
 
   augment /acl:acls/acl:acl/acl:aces/acl:ace/acl:matches:
     +--rw (payload)?
-       +--:(prefix-pattern)
-          +--rw prefix-pattern {match-on-payload}?
-             +--rw offset?       identityref
-             +--rw offset-end?   uint64
-             +--rw operator?     operator
-             +--rw prefix?       binary
+    |  +--:(prefix-pattern)
+    |     +--rw prefix-pattern {match-on-payload}?
+    |        +--rw offset?       identityref
+    |        +--rw offset-end?   uint64
+    |        +--rw operator?     operator
+    |        +--rw prefix?       binary
+    +--rw (alias)?
+    |  +--rw alias-name*        alias-ref
+    +--rw (mpls)?
+       +--:(mpls-values)
+          +--rw mpls-values {match-on-mpls}?
+             +--rw traffic-class?       uint8
+             +--rw label-position       identityref
+             +--rw upper-label-range?   uint32
+             +--rw lower-label-range?   uint32
+             +--rw label-block-name     string
+             +--rw ttl-value?           uint8
   augment /acl:acls/acl:acl/acl:aces/acl:ace/acl:matches/acl:l2:
     +--rw vlan-filter {match-on-vlan-filter}?
        +--rw frame-type?         string

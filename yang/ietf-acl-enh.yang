@@ -78,6 +78,11 @@ module ietf-acl-enh {
       "Match based on a ISID range of vlan list is supported.";
   }
 
+  feature match-on-alias {
+    description
+      "Match based on aliases.";
+  }
+
   feature match-on-mpls {
     description
       "Match based on MPLS headers.";
@@ -306,6 +311,14 @@ module ietf-acl-enh {
       "Defines a reference to an ICMP type set.";
   }
 
+  typedef alias-ref {
+    type leafref {
+      path "/acl-enh:aliases/acl-enh:alias/acl-enh:name";
+    }
+    description
+      "Defines a reference to an alias.";
+  }
+
   grouping tcp-flags {
     description
       "Operations on TCP flags.";
@@ -358,65 +371,65 @@ module ietf-acl-enh {
   }
 
 grouping mpls-match-parameters-config {
+  description
+    "Parameters for the configuration of MPLS match rules.";
+
+  leaf traffic-class {
+    type uint8 {
+      range "0..7";
+    }
     description
-      "Parameters for the configuration of MPLS match rules.";
+      "The value of the MPLS traffic class (TC) bits,
+       formerly known as the EXP bits.";
+  }
 
-    leaf traffic-class {
-      type uint8 {
-        range "0..7";
-      }
-      description
-        "The value of the MPLS traffic class (TC) bits,
-         formerly known as the EXP bits.";
+  leaf label-position {
+    type identityref {
+      base label-position;
     }
+    description 
+      "Position of the label";
+  }
 
-    leaf label-position {
-      type identityref {
-        base label-position;
-      }
-      description 
-        "Position of the label";
-    }
-
-    leaf start-label-value {
-      type rt-types:mpls-label;
-      description 
-        "Match MPLS label value on the MPLS header.
-         The usage of this field indicated the upper 
-         range value in the top of the stack.
-         This label value does not include the
-         encodings of Traffic Class and TTL.";
-       reference
-         "RFC 3032: MPLS Label Stack Encoding";
-    }
+  leaf upper-label-range {
+    type rt-types:mpls-label;
+    description 
+      "Match MPLS label value on the MPLS header.
+       The usage of this field indicated the upper 
+       range value in the top of the stack.
+       This label value does not include the
+       encodings of Traffic Class and TTL.";
+     reference
+       "RFC 3032: MPLS Label Stack Encoding";
+  }
     
-    leaf end-label-value {
-      type rt-types:mpls-label;
-      description 
-        "Match MPLS label value on the MPLS header.
-         The usage of this field indicated the upper 
-         range value in the top of the stack. 
-         This label value does not include the
-         encodings of Traffic Class and TTL.";
-       reference
-         "RFC 3032: MPLS Label Stack Encoding";
-    }
+  leaf lower-label-range {
+    type rt-types:mpls-label;
+    description 
+      "Match MPLS label value on the MPLS header.
+       The usage of this field indicated the lower 
+       range value in the top of the stack. 
+       This label value does not include the
+       encodings of Traffic Class and TTL.";
+     reference
+       "RFC 3032: MPLS Label Stack Encoding";
+  }
 
-    leaf label-block-name {
-      type string;
-      description 
-      "Reference to a label block predefiend in the
-       implementation.";
-    }
+  leaf label-block-name {
+    type string;
+    description 
+    "Reference to a label block predefiend in the
+     implementation.";
+  }
     
-    leaf ttl-value {
-      type uint8;
-      description 
-        "Time-to-live MPLS packet value match.";
-      reference
-        "RFC 3032: MPLS Label Stack Encoding";
-      }
+  leaf ttl-value {
+    type uint8;
+    description 
+      "Time-to-live MPLS packet value match.";
+    reference
+      "RFC 3032: MPLS Label Stack Encoding";
     }
+  }
 
   grouping payload {
     description
@@ -515,6 +528,25 @@ grouping mpls-match-parameters-config {
         uses payload;
       }
     }
+    choice alias {
+      description
+        "Match on aliases.";
+      leaf-list alias-name {
+        type alias-ref;
+        description
+          "A set of aliases.";
+      }
+    }
+    choice mpls {
+      container mpls-values {
+        if-feature "match-on-mpls";
+        uses mpls-match-parameters-config;
+        description
+          "Rule set that matches MPLS headers.";
+      }
+      description
+        "Match MPLS headers, for example, label values";          
+    } 
   }
 
   augment "/acl:acls/acl:acl/acl:aces"
@@ -744,22 +776,6 @@ grouping mpls-match-parameters-config {
     }
   }
 
-  augment "/acl:acls/acl:acl/acl:aces/acl:ace/acl:matches" {
-    description
-    "Adds MPLS matches.";
-
-    choice mpls {
-      container mpls-values {
-        if-feature "match-on-mpls";
-        uses mpls-match-parameters-config;
-        description
-          "Rule set that matches MPLS headers.";
-      }
-      description
-        "Match MPLS headers, for example, label values";          
-
-    } 
-  }
 
   container defined-sets {
     description
