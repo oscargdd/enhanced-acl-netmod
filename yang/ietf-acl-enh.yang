@@ -33,11 +33,11 @@ module ietf-acl-enh {
     "WG Web:   https://datatracker.ietf.org/wg/netmod/
      WG List:  mailto:netmod@ietf.org
 
-     Author:    Mohamed Boucadair
+     Author:   Mohamed Boucadair
                mailto:mohamed.boucadair@orange.com
-     Author:    Samier Barguil
+     Author:   Samier Barguil
                mailto:samier.barguilgiraldo.ext@telefonica.com
-     Author:    Oscar Gonzalez de Dios
+     Author:   Oscar Gonzalez de Dios
                mailto:oscar.gonzalezdedios@telefonica.com";
   description
     "This module contains YANG definitions for enhanced ACLs.
@@ -96,7 +96,8 @@ module ietf-acl-enh {
   identity layer2 {
     base offset-type;
     description
-      "The offset starts at the beginning of the Data Link layer header.";
+      "The offset starts at the beginning of the Data Link layer
+       header.";
   }
 
   identity layer3 {
@@ -523,24 +524,24 @@ grouping mpls-match-parameters-config {
   augment "/acl:acls/acl:acl/acl:aces/acl:ace"
         + "/acl:matches" {
     description
-      "Add a new match types.";
+      "Adds a new match type based on the payload.";
     choice payload {
       description
-        "Match a prefix pattern.";
+        "Matches based upon a prefix pattern.";
       container prefix-pattern {
         if-feature "match-on-payload";
         description
-          "Rule to perform payload-based match.";
+          "Indicates the rule to perform the payload-based match.";
         uses payload;
       }
     }
     choice alias {
       description
-        "Match on aliases.";
+        "Matches based upon aliases.";
       leaf-list alias-name {
         type alias-ref;
         description
-          "A set of aliases.";
+          "Indicates one or more aliases.";
       }
     }
     choice mpls {
@@ -548,17 +549,17 @@ grouping mpls-match-parameters-config {
         if-feature "match-on-mpls";
         uses mpls-match-parameters-config;
         description
-          "Rule set that matches MPLS headers.";
+          "Provides the rule set that matches MPLS headers.";
       }
       description
-        "Match MPLS headers, for example, label values";          
+        "Matches against MPLS headers, for example, label values";          
     } 
   }
 
   augment "/acl:acls/acl:acl/acl:aces"
         + "/acl:ace/acl:matches/acl:l2" {
     description
-      "Handle the augmentation of MAC VLAN Filter.";
+      "Handles the augmentation of MAC VLAN filter.";
     container vlan-filter {
       if-feature "match-on-vlan-filter";
       description
@@ -571,7 +572,7 @@ grouping mpls-match-parameters-config {
       }
       choice vlan-type {
         description
-          "vlan definition from range or operator.";
+          "VLAN definition from range or operator.";
         case range {
           leaf lower-vlan {
             type uint16;
@@ -612,7 +613,7 @@ grouping mpls-match-parameters-config {
   augment "/acl:acls/acl:acl/acl:aces"
         + "/acl:ace/acl:matches/acl:l2" {
     description
-      "Handle the augmentation of ISID Filter.";
+      "Handles the augmentation of ISID Filter.";
     container isid-filter {
       if-feature "match-on-isid-filter";
       description
