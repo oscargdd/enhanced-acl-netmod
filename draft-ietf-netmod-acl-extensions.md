@@ -795,7 +795,7 @@ This document requests IANA to register the following YANG modules in
 
 Many thanks to Jon Shallow and Miguel Cros for the review and comments to the document, including prior to publishing the document.
 
-Thanks to Qiufang Ma and Victor Lopez for the comments and suggestions.
+Thanks to Qiufang Ma, Victor Lopez, and Joe Clarke for the comments and suggestions.
 
 The IANA-maintained model was generated using an XSLT stylesheet from the 'iana-yang' project (https://github.com/llhotka/iana-yang).
 
