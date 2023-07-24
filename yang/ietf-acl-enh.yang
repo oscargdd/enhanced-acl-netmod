@@ -93,6 +93,12 @@ module ietf-acl-enh {
       "Base identity for payload offset type.";
   }
 
+  identity layer2 {
+    base offset-type;
+    description
+      "The offset starts at the beginning of the Data Link layer header.";
+  }
+
   identity layer3 {
     base offset-type;
     description
