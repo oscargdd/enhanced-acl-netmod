@@ -38,7 +38,7 @@
       <element name="yin:type">
 	<attribute name="name">union</attribute>
 	<element name="yin:type">
-	  <attribute name="name">uint8/</attribute>
+	  <attribute name="name">uint8</attribute>
 	</element>
 	<element name="yin:type">
 	  <attribute name="name">icmpv4-type-name</attribute>
