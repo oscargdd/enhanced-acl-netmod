@@ -86,9 +86,9 @@ tools such as DDoS mitigation {{?RFC9132}} or BGP Flow Spec {{?RFC8955}}
 {{!RFC8956}}. Therefore, supporting means to easily map to the filtering rules conveyed in
 messages triggered by  these tools is valuable from a network operation standpoint.
 
-The document also defines an IANA-maintained module for ICMP types. The design of the module adheres with the recommendations
-in {{?I-D.boucadair-netmod-iana-registries}}. A template to generate the module is available at {{template}}. Readers should refer to the IANA
-website [REF_TBC] to retrieve the latest version of the module. The module is provided in {{iana-icmp}} for the users convenience, but that appendix will be removed from the final RFC.
+The document also defines IANA-maintained modules for ICMP types. The design of the module adheres with the recommendations
+in {{?I-D.boucadair-netmod-iana-registries}}. The templates to generate the module is available at {{template}} and {{v6-template}}. Readers should refer to the IANA
+website [REF_TBC] to retrieve the latest version of the modules. The modules are provided in {{iana-icmp}} and {{iana-icmpv6}} for the users convenience, but that appendix will be removed from the final RFC.
 
 # Terminology
 
@@ -747,6 +747,10 @@ Some of the readable data nodes in this YANG module may be considered sensitive 
          URI: urn:ietf:params:xml:ns:yang:iana-icmpv4-types
          Registrant Contact: The IESG.
          XML: N/A; the requested URI is an XML namespace.
+
+         URI: urn:ietf:params:xml:ns:yang:iana-icmpv6-types
+         Registrant Contact: The IESG.
+         XML: N/A; the requested URI is an XML namespace.
 ~~~
 
 ## YANG Module Name Registration
@@ -767,11 +771,19 @@ This document requests IANA to register the following YANG modules in
          maintained by IANA: Y
          prefix: iana-icmpv4-types
          reference: RFC XXXX
+
+         name: ietf-icmpv6-types
+         namespace: urn:ietf:params:xml:ns:yang:iana-icmpv6-types
+         maintained by IANA: Y
+         prefix: iana-icmpv6-types
+         reference: RFC XXXX
 ~~~
 
 --- back
 
-# XLTS Template to Generate The ICMPv4 Type IANA-Maintained Module {#template}
+# ICMPv4
+
+## XLTS Template to Generate The ICMPv4 Type IANA-Maintained Module {#template}
 
 ~~~
 <CODE BEGINS>
@@ -781,12 +793,34 @@ This document requests IANA to register the following YANG modules in
 <CODE ENDS>
 ~~~
 
-# Initial Version of the The ICMPv4 Type IANA-Maintained Module {#iana-icmp}
+## Initial Version of the The ICMPv4 Type IANA-Maintained Module {#iana-icmp}
 
 ~~~
 <CODE BEGINS> file iana-icmpv4-types@2020-09-25.yang
 
 {::include ./yang/iana-icmpv4-types.yang}
+
+<CODE ENDS>
+~~~
+
+# ICMPv6
+
+## XLTS Template to Generate The ICMPv6 Type IANA-Maintained Module {#v6-template}
+
+~~~
+<CODE BEGINS>
+
+{::include-fold ./yang/iana-icmpv6-types.xsl}
+
+<CODE ENDS>
+~~~
+
+## Initial Version of the The ICMPv4 Type IANA-Maintained Module {#iana-icmpv6}
+
+~~~
+<CODE BEGINS> file iana-icmpv6-types@2020-09-25.yang
+
+{::include ./yang/iana-icmpv6-types.yang}
 
 <CODE ENDS>
 ~~~
