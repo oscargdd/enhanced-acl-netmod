@@ -744,7 +744,7 @@ Some of the readable data nodes in this YANG module may be considered sensitive 
          Registrant Contact: The IESG.
          XML: N/A; the requested URI is an XML namespace.
 
-         URI: urn:ietf:params:xml:ns:yang:iana-icmp-types
+         URI: urn:ietf:params:xml:ns:yang:iana-icmpv4-types
          Registrant Contact: The IESG.
          XML: N/A; the requested URI is an XML namespace.
 ~~~
@@ -762,31 +762,31 @@ This document requests IANA to register the following YANG modules in
          prefix: acl-enh
          reference: RFC XXXX
 
-         name: ietf-icmp-types
-         namespace: urn:ietf:params:xml:ns:yang:iana-icmp-types
+         name: ietf-icmpv4-types
+         namespace: urn:ietf:params:xml:ns:yang:iana-icmpv4-types
          maintained by IANA: Y
-         prefix: iana-icmp-types
+         prefix: iana-icmpv4-types
          reference: RFC XXXX
 ~~~
 
 --- back
 
-# XLTS Template to Generate The ICMP Type IANA-Maintained Module {#template}
+# XLTS Template to Generate The ICMPv4 Type IANA-Maintained Module {#template}
 
 ~~~
 <CODE BEGINS>
 
-{::include-fold ./yang/iana-icmp-types.xsl}
+{::include-fold ./yang/iana-icmpv4-types.xsl}
 
 <CODE ENDS>
 ~~~
 
-# Initial Version of the The ICMP Type IANA-Maintained Module {#iana-icmp}
+# Initial Version of the The ICMPv4 Type IANA-Maintained Module {#iana-icmp}
 
 ~~~
-<CODE BEGINS> file iana-icmp-types@2020-09-25.yang
+<CODE BEGINS> file iana-icmpv4-types@2020-09-25.yang
 
-{::include ./yang/iana-icmp-types.yang}
+{::include ./yang/iana-icmpv4-types.yang}
 
 <CODE ENDS>
 ~~~
