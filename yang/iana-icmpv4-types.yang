@@ -305,7 +305,7 @@ module iana-icmpv4-types {
 
   typedef icmpv4-type {
     type union {
-      type uint8/;
+      type uint8;
       type icmpv4-type-name;
     }
     description
