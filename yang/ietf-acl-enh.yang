@@ -20,12 +20,21 @@ module ietf-acl-enh {
       "RFC 8519: YANG Data Model for Network Access
                  Control Lists (ACLs), Section 4.2";
   }
-
   import ietf-routing-types { 
     prefix rt-types;
     reference
       "RFC 8294: Common YANG Data Types for the Routing Area";
-    }
+  }
+  import iana-icmpv4-types { 
+    prefix iana-icmpv4-types;
+    reference
+      "TBC";
+  }
+  import iana-icmpv6-types { 
+    prefix iana-icmpv6-types;
+    reference
+      "TBC";
+  }
 
   organization
     "IETF NETMOD Working Group";
@@ -309,13 +318,22 @@ module ietf-acl-enh {
       "Defines a reference to a protocol set.";
   }
 
-  typedef icmp-type-set-ref {
+  typedef icmpv4-type-set-ref {
     type leafref {
-      path "/acl-enh:defined-sets/acl-enh:icmp-type-sets"
-         + "/acl-enh:icmp-type-set/acl-enh:name";
+      path "/acl-enh:defined-sets/acl-enh:icmpv4-type-sets"
+         + "/acl-enh:icmpv4-type-set/acl-enh:name";
     }
     description
-      "Defines a reference to an ICMP type set.";
+      "Defines a reference to an ICMPv4 type set.";
+  }
+
+  typedef icmpv6-type-set-ref {
+    type leafref {
+      path "/acl-enh:defined-sets/acl-enh:icmpv6-type-sets"
+         + "/acl-enh:icmpv6-type-set/acl-enh:name";
+    }
+    description
+      "Defines a reference to an ICMPv6 type set.";
   }
 
   typedef alias-ref {
@@ -518,6 +536,69 @@ grouping mpls-match-parameters-config {
       type inet:uri;
       description
         "URI identifying the target.";
+    }
+  }
+
+  grouping icmpv4-header-fields {
+    description
+      "Collection of ICMPv4 header fields that can be
+       used to set up a match filter.";
+    leaf type {
+      type iana-icmpv4-types:icmpv4-type;
+      description
+        "Also known as control messages.";
+      reference
+        "RFC 792: Internet Control Message Protocol.";
+    }
+    leaf code {
+      type uint8;
+      description
+        "ICMP subtype.";
+      reference
+        "RFC 792: Internet Control Message Protocol.";
+    }
+    leaf rest-of-header {
+      type binary;
+      description
+        "Unbounded in length, the contents vary based on the
+         ICMP type and code.";
+      reference
+        "RFC 792: Internet Control Message Protocol";
+    }
+  }
+
+  grouping icmpv6-header-fields {
+    description
+      "Collection of ICMPv6 header fields that can be
+       used to set up a match filter.";
+    leaf type {
+      type iana-icmpv6-types:icmpv6-type;
+      description
+        "Also known as control messages.";
+      reference
+        "RFC 4443: Internet Control Message Protocol (ICMPv6)
+                   for Internet Protocol Version 6 (IPv6)
+                   Specification.";
+    }
+    leaf code {
+      type uint8;
+      description
+        "ICMP code.";
+      reference
+        "RFC 4443: Internet Control Message Protocol (ICMPv6)
+                   for Internet Protocol Version 6 (IPv6)
+                   Specification.";
+    }
+    leaf rest-of-header {
+      type binary;
+      description
+        "Unbounded in length, the contents vary based on the
+         ICMP type and code. Also referred to as 'Message Body'
+         in ICMPv6.";
+      reference
+        "RFC 4443: Internet Control Message Protocol (ICMPv6)
+                   for Internet Protocol Version 6 (IPv6)
+                   Specification.";
     }
   }
 
@@ -757,10 +838,16 @@ grouping mpls-match-parameters-config {
         + "/acl:ace/acl:matches/acl:l4/acl:icmp" {
     description
       "Handle ICMP type sets.";
-    leaf icmp-set {
-      type icmp-type-set-ref;
+    leaf icmpv4-set {
+      type icmpv4-type-set-ref;
       description
-        "A reference to an ICMP type set to match the ICMP type
+        "A reference to an ICMPv4 type set to match the ICMPv4 type
+         field.";
+    }
+    leaf icmpv6-set {
+      type icmpv6-type-set-ref;
+      description
+        "A reference to an ICMPv6 type set to match the ICMPv6 type
          field.";
     }
   }
@@ -903,25 +990,48 @@ grouping mpls-match-parameters-config {
         }
       }
     }
-    container icmp-type-sets {
+    container icmpv4-type-sets {
       description
-        "Data definitions for a list of ICMP types which can be
+        "Data definitions for a list of ICMPv4 types which can be
          matched in policies.";
-      list icmp-type-set {
+      list icmpv4-type-set {
         key "name";
         description
           "List of ICMP type set definitions.";
         leaf name {
           type string;
           description
-            "Name of the ICMP type set -- this is used as a label to
+            "Name of the ICMPv4 type set -- this is used as a label to
              reference the set in match conditions.";
         }
         list types {
           key "type";
           description
-            "Includes a list of ICMP types.";
-          uses packet-fields:acl-icmp-header-fields;
+            "Includes a list of ICMPv4 types.";
+          uses icmpv4-header-fields;
+        }
+      }
+    }
+  }
+  container icmpv6-type-sets {
+      description
+        "Data definitions for a list of ICMPv6 types which can be
+         matched in policies.";
+      list icmpv6-type-set {
+        key "name";
+        description
+          "List of ICMP type set definitions.";
+        leaf name {
+          type string;
+          description
+            "Name of the ICMPv6 type set -- this is used as a label to
+             reference the set in match conditions.";
+        }
+        list types {
+          key "type";
+          description
+            "Includes a list of ICMPv6 types.";
+          uses icmpv6-header-fields;
         }
       }
     }
