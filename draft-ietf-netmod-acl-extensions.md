@@ -665,7 +665,7 @@ The defined sets are reusable definitions across several ACLs. Each category is 
       present.  Otherwise, a set applies to any protocol.
 -  ICMP sets: Uses to create lists of ICMP-based filters. This applies only when the protocol is set to ICMP or ICMPv6.
 
-Aliases may also be considered to manage resources that are identified by a combination of various parameters as shown in the candidate tree in {{example_alias}}.
+Aliases may also be considered to manage resources that are identified by a combination of various parameters (e.g., prefix, protocol, port number, or FQDN).
 Note that some aliases can be provided by decomposing them into separate sets.
 
 ## Bind ACLs to Devices, Not Only Interfaces
