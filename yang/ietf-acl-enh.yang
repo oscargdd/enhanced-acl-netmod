@@ -1006,7 +1006,6 @@ grouping mpls-match-parameters-config {
         }
       }
     }
-  }
   container icmpv6-type-sets {
       description
         "Data definitions for a list of ICMPv6 types which can be
@@ -1029,7 +1028,6 @@ grouping mpls-match-parameters-config {
         }
       }
     }
-  }
   container aliases {
     description
       "Top-levl container for aliases.";
