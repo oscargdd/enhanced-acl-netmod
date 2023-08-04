@@ -1028,6 +1028,7 @@ grouping mpls-match-parameters-config {
         }
       }
     }
+}
   container aliases {
     description
       "Top-levl container for aliases.";
@@ -1043,5 +1044,4 @@ grouping mpls-match-parameters-config {
       uses alias;
     }
   }
-}
 }
