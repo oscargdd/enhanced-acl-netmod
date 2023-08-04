@@ -640,7 +640,7 @@ grouping mpls-match-parameters-config {
   augment "/acl:acls/acl:acl/acl:aces"
         + "/acl:ace/acl:matches/acl:l2" {
     description
-      "Handles the augmentation of MAC VLAN filter.";
+      "Handles the augmentation of MAC VLAN and ISID filters.";
     container vlan-filter {
       if-feature "match-on-vlan-filter";
       description
@@ -689,12 +689,6 @@ grouping mpls-match-parameters-config {
         }
       }
     }
-  }
-
-  augment "/acl:acls/acl:acl/acl:aces"
-        + "/acl:ace/acl:matches/acl:l2" {
-    description
-      "Handles the augmentation of ISID Filter.";
     container isid-filter {
       if-feature "match-on-isid-filter";
       description
