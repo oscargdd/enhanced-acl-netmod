@@ -98,287 +98,15 @@ The terminology for describing YANG modules is defined in {{!RFC7950}}.
 The meaning of the symbols in the tree diagrams is defined in
 {{?RFC8340}}.
 
-
 In addition to the terms defined in {{!RFC8519}}, this document makes use of the following term:
 
 Defined set:
 :Refers to reusable description of one or multiple information elements (e.g., IP address, IP prefix, port number, or ICMP type).
 
-# Problem Statement & Gap Analysis {#ps}
 
-## Suboptimal Configuration: Lack of Support for Lists of Prefixes {#ps-sets}
+# Overall Structure of The Enhanced ACL Module
 
-IP prefix-related data nodes, e.g., "destination-ipv4-network" or
-   "destination-ipv6-network", do not support handling a list of IP
-   prefixes, which may then lead to having to support large numbers of ACL entries in a configuration file.
-
-The same issue is encountered when ACLs have to be in place to mitigate DDoS
-attacks that involve a set of sources (e.g., {{?RFC9132}}). The situation is even worse when both a list of sources
-and destination prefixes are involved in the filtering.
-
-{{example}} shows an example of the required ACL configuration for filtering traffic from two prefixes.
-
-~~~~~~~~~~~
-{
-  "ietf-access-control-list:acls": {
-    "acl": [
-      {
-        "name": "first-prefix",
-        "type": "ipv6-acl-type",
-        "aces": {
-          "ace": [
-            {
-              "name": "my-test-ace",
-              "matches": {
-                "ipv6": {
-                  "destination-ipv6-network":
-                    "2001:db8:6401:1::/64",
-                  "source-ipv6-network":
-                    "2001:db8:1234::/96",
-                  "protocol": 17,
-                  "flow-label": 10000
-                },
-                "udp": {
-                  "source-port": {
-                    "operator": "lte",
-                    "port": 80
-                  },
-                  "destination-port": {
-                    "operator": "neq",
-                    "port": 1010
-                  }
-                }
-              },
-              "actions": {
-                "forwarding": "accept"
-              }
-            }
-          ]
-        }
-      },
-      {
-        "name": "second-prefix",
-        "type": "ipv6-acl-type",
-        "aces": {
-          "ace": [
-            {
-              "name": "my-test-ace",
-              "matches": {
-                "ipv6": {
-                  "destination-ipv6-network":
-                    "2001:db8:6401:c::/64",
-                  "source-ipv6-network":
-                    "2001:db8:1234::/96",
-                  "protocol": 17,
-                  "flow-label": 10000
-                },
-                "udp": {
-                  "source-port": {
-                    "operator": "lte",
-                    "port": 80
-                  },
-                  "destination-port": {
-                    "operator": "neq",
-                    "port": 1010
-                  }
-                }
-              },
-              "actions": {
-                "forwarding": "accept"
-              }
-            }
-          ]
-        }
-      }
-    ]
-  }
-}
-~~~~~~~~~~~
-{: #example title="Example Illustrating Sub-optimal Use of the ACL Model with a Prefix List (Message Body)"}
-
-Such a configuration is suboptimal for both:
-
-- Network controllers that need to manipulate large files. All or a
-  subset for this configuration will need to be passed to the
-  underlying network devices.
-- Devices may receive such a configuration and thus will need to
-  maintain it locally.
-
-{{example_1}} depicts an example of an optimized structure:
-
-~~~~~~~~~~~
-{
-  "ietf-access-control-list:acls": {
-    "acl": [
-      {
-        "name": "prefix-list-support",
-        "type": "ipv6-acl-type",
-        "aces": {
-          "ace": [
-            {
-              "name": "my-test-ace",
-              "matches": {
-                "ipv6": {
-                  "destination-ipv6-network": [
-                    "2001:db8:6401:1::/64",
-                    "2001:db8:6401:c::/64"
-                  ],
-                  "source-ipv6-network":
-                    "2001:db8:1234::/96",
-                  "protocol": 17,
-                  "flow-label": 10000
-                },
-                "udp": {
-                  "source-port": {
-                    "operator": "lte",
-                    "port": 80
-                  },
-                  "destination-port": {
-                    "operator": "neq",
-                    "port": 1010
-                  }
-                }
-              },
-              "actions": {
-                "forwarding": "accept"
-              }
-            }
-          ]
-        }
-      }
-    ]
-  }
-}
-~~~~~~~~~~~
-{: #example_1 title="Example Illustrating Optimal Use of the ACL Model in a Network Context (Message Body)"}
-
-
-## Manageability: Impossibility to Use Aliases or Defined Sets
-
-The same approach as the one discussed for IP prefixes can be generalized by introducing the concept of "aliases" or "defined sets".
-
-The defined sets are reusable definitions across several ACLs. Each category is modelled in YANG as a list of parameters related to the class it represents. The following sets can be considered:
-
--  Prefix sets: Used to create lists of IPv4 or IPv6 prefixes.
--  Protocol sets: Used to create a list of protocols.
--  Port number sets: Used to create lists of TCP or UDP port values
-      (or any other transport protocol that makes uses of port numbers).
-      The identity of the protocols is identified by the protocol set, if
-      present.  Otherwise, a set applies to any protocol.
--  ICMP sets: Uses to create lists of ICMP-based filters. This applies only when the protocol is set to ICMP or ICMPv6.
-
-A candidate structure is shown in {{example_sets}}:
-
-
-~~~
-     +--rw defined-sets
-     |  +--rw prefix-sets
-     |  |  +--rw prefix-set* [name]
-     |  |     +--rw name        string
-     |  |     +--rw ip-prefix*   inet:ip-prefix
-     |  +--rw port-sets
-     |  |  +--rw port-set* [name]
-     |  |     +--rw name    string
-     |  |     +--rw port*   inet:port-number
-     |  +--rw protocol-sets
-     |  |  +--rw protocol-set* [name]
-     |  |     +--rw name             string
-     |  |     +--rw protocol-name*   identityref
-     |  +--rw icmp-type-sets
-     |     +--rw icmp-type-set* [name]
-     |        +--rw name     string
-     |        +--rw types* [type]
-     |           +--rw type              uint8
-     |           +--rw code?             uint8
-     |           +--rw rest-of-header?   binary
-~~~
-{: #example_sets title="Examples of Defined Sets"}
-
-
-Aliases may also be considered to manage resources that are identified by a combination of various parameters as shown in the candidate tree in {{example_alias}}.
-Note that some aliases can be provided by decomposing them into separate sets.
-
-~~~
-        |  +--rw aliases
-        |  |  +--rw alias* [name]
-        |  |     +--rw name                 string
-        |  |     +--rw prefix*       inet:ip-prefix
-        |  |     +--rw port-range* [lower-port]
-        |  |     |  +--rw lower-port    inet:port-number
-        |  |     |  +--rw upper-port?   inet:port-number
-        |  |     +--rw protocol*     uint8
-        |  |     +--rw fqdn*         inet:domain-name
-        |  |     +--rw uri*          inet:uri
-~~~
-{: #example_alias title="Examples of Aliases"}
-
-
-## Bind ACLs to Devices, Not Only Interfaces
-
-In the context of network management, an ACL may be enforced in many
-   network locations.  As such, the ACL module should allow for binding an
-   ACL to multiple devices, not only (abstract) interfaces.
-
-The ACL name must, thus, be unique at the scale of the network, but the same name may be used in many devices when enforcing node-specific ACLs.
-
-## Partial or Lack of IPv4/IPv6 Fragment Handling {#ps-frag}
-
-{{!RFC8519}} does not support fragment handling for IPv6 but
-offers a partial support for IPv4  through the use of 'flags'.  Nevertheless,
-the use of 'flags' is problematic since it does not allow a bitmask
-to be defined.  For example, setting other bits not covered by the
-'flags' filtering clause in a packet will allow that packet to get
-through (because it won't match the ACE).
-
-Defining a new IPv4/IPv6 matching field called 'fragment' is thus required to efficiently handle fragment-related filtering rules.
-
-## Suboptimal TCP Flags Handling {#ps-flags}
-
-{{!RFC8519}} supports including flags in the TCP match fields, however
-   that structure does not support matching operations as those
-   supported in BGP Flow Spec.  Defining this field to be defined as a
-   flag bitmask together with a set of operations is meant to
-   efficiently handle TCP flags filtering rules.
-
-
-## Rate-Limit Action {#ps-rate}
-
- {{!RFC8519}} specifies that forwarding actions can be 'accept' (i.e., accept matching
-   traffic), 'drop' (i.e., drop matching traffic without sending any
-   ICMP error message), or 'reject' (i.e., drop matching traffic and send an ICMP error message to the source). However, there are situations where the matching traffic can be accepted, but with a rate-limit policy. This capability is not supported by {{!RFC8519}}.
-
-## Payload-based Filtering {#ps-pf}
-
-Some transport protocols use existing protocols (e.g., TCP or UDP) as substrate. The match criteria for such protocols may rely upon the 'protocol' under 'l3', TCP/UDP match criteria, part of the TCP/UDP payload, or a combination thereof. {{!RFC8519}} does not support matching based on the payload.
-
-Likewise, the current version of the ACL model does not support filtering of encapsulated traffic.
-
-## Reuse the ACLs Content Across Several Devices
-
-Having a global network view of the ACLs is highly valuable for service providers. An ACL could be defined and applied
-based on the network topology hierarchy. So, an ACL can be
-defined at the network level and, then, that same ACL can be used (or referenced to)
-in several devices (including termination points) within the same network.
-
-This network/device ACLs differentiation introduces several new
-requirements, e.g.:
-
-* An ACL name can be used at both network and device levels.
-* An ACL content updated at the network level should imply
-  a transaction that updates the relevant content in all the nodes using this
-  ACL.
-* ACLs defined at the device level have a local meaning for the specific node.
-* A device can be associated with a router, a VRF, a
-  logical system, or a virtual node. ACLs can be applied in physical and
-  logical infrastructure.
-
-## Match MPLS Headers
-
-The ACLs could be used to create rules to match MPLS fields on a packet.
-
-# Overall Module Structure
-
-## Enhanced ACL
+## Tree Structure
 
 {{enh-acl-tree}} shows the full enhanced ACL tree:
 
@@ -387,7 +115,7 @@ The ACLs could be used to create rules to match MPLS fields on a packet.
 ~~~
 {: #enh-acl-tree title="Enhanced ACL tree"}
 
-## Defined sets
+## Defined Sets
 
 The augmented ACL structure includes several containers to manage reusable sets of elements that can be matched in an ACL entry.
 Each set is uniquely identified by a name, and can be called from the relevant entry. The following sets are defined:
@@ -499,7 +227,6 @@ packets.  The following ACEs are defined (in this order):
 
 * "drop-all-fragments" ACE: discards all fragments (including atomic fragments). That is, IPv6 packets that include a Fragment header (44) are dropped.
 * "allow-dns-packets" ACE: accepts DNS packets destined to 2001:db8::/32.
-
 
 ~~~
     {
@@ -698,9 +425,7 @@ The structure of the MPLS ACL subtree is shown in {{example_8}}:
 ~~~
 {: #example_8 title="MPLS Header Match Subtree"}
 
-# YANG Modules
-
-## Enhanced ACL
+# Enhanced ACL YANG Module
 
 This model imports types from {{!RFC6991}}, {{!RFC8519}}, and {{!RFC8294}}.
 
@@ -779,9 +504,10 @@ This document requests IANA to register the following YANG modules in
          reference: RFC XXXX
 ~~~
 
+
 --- back
 
-# ICMPv4
+# ICMPv4 Types
 
 ## XLTS Template to Generate The ICMPv4 Type IANA-Maintained Module {#template}
 
@@ -803,7 +529,7 @@ This document requests IANA to register the following YANG modules in
 <CODE ENDS>
 ~~~
 
-# ICMPv6
+# ICMPv6 Types
 
 ## XLTS Template to Generate The ICMPv6 Type IANA-Maintained Module {#v6-template}
 
@@ -825,13 +551,193 @@ This document requests IANA to register the following YANG modules in
 <CODE ENDS>
 ~~~
 
+# Problem Statement & Gap Analysis {#ps}
+
+## Suboptimal Configuration: Lack of Support for Lists of Prefixes {#ps-sets}
+
+IP prefix-related data nodes, e.g., "destination-ipv4-network" or
+   "destination-ipv6-network", do not support handling a list of IP
+   prefixes, which may then lead to having to support large numbers of ACL entries in a configuration file.
+
+The same issue is encountered when ACLs have to be in place to mitigate DDoS
+attacks that involve a set of sources (e.g., {{?RFC9132}}). The situation is even worse when both a list of sources
+and destination prefixes are involved in the filtering.
+
+{{example}} shows an example of the required ACL configuration for filtering traffic from two prefixes.
+
+~~~~~~~~~~~
+{
+  "ietf-access-control-list:acls": {
+    "acl": [
+      {
+        "name": "first-prefix",
+        "type": "ipv6-acl-type",
+        "aces": {
+          "ace": [
+            {
+              "name": "my-test-ace",
+              "matches": {
+                "ipv6": {
+                  "destination-ipv6-network":
+                    "2001:db8:6401:1::/64",
+                  "source-ipv6-network":
+                    "2001:db8:1234::/96",
+                  "protocol": 17,
+                  "flow-label": 10000
+                },
+                "udp": {
+                  "source-port": {
+                    "operator": "lte",
+                    "port": 80
+                  },
+                  "destination-port": {
+                    "operator": "neq",
+                    "port": 1010
+                  }
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "second-prefix",
+        "type": "ipv6-acl-type",
+        "aces": {
+          "ace": [
+            {
+              "name": "my-test-ace",
+              "matches": {
+                "ipv6": {
+                  "destination-ipv6-network":
+                    "2001:db8:6401:c::/64",
+                  "source-ipv6-network":
+                    "2001:db8:1234::/96",
+                  "protocol": 17,
+                  "flow-label": 10000
+                },
+                "udp": {
+                  "source-port": {
+                    "operator": "lte",
+                    "port": 80
+                  },
+                  "destination-port": {
+                    "operator": "neq",
+                    "port": 1010
+                  }
+                }
+              },
+              "actions": {
+                "forwarding": "accept"
+              }
+            }
+          ]
+        }
+      }
+    ]
+  }
+}
+~~~~~~~~~~~
+{: #example title="Example Illustrating Sub-optimal Use of the ACL Model with a Prefix List (Message Body)"}
+
+Such a configuration is suboptimal for both:
+
+- Network controllers that need to manipulate large files. All or a
+  subset for this configuration will need to be passed to the
+  underlying network devices.
+- Devices may receive such a configuration and thus will need to
+  maintain it locally.
+
+## Manageability: Impossibility to Use Aliases or Defined Sets
+
+The same approach as the one discussed for IP prefixes can be generalized by introducing the concept of "aliases" or "defined sets".
+
+The defined sets are reusable definitions across several ACLs. Each category is modelled in YANG as a list of parameters related to the class it represents. The following sets can be considered:
+
+-  Prefix sets: Used to create lists of IPv4 or IPv6 prefixes.
+-  Protocol sets: Used to create a list of protocols.
+-  Port number sets: Used to create lists of TCP or UDP port values
+      (or any other transport protocol that makes uses of port numbers).
+      The identity of the protocols is identified by the protocol set, if
+      present.  Otherwise, a set applies to any protocol.
+-  ICMP sets: Uses to create lists of ICMP-based filters. This applies only when the protocol is set to ICMP or ICMPv6.
+
+Aliases may also be considered to manage resources that are identified by a combination of various parameters as shown in the candidate tree in {{example_alias}}.
+Note that some aliases can be provided by decomposing them into separate sets.
+
+## Bind ACLs to Devices, Not Only Interfaces
+
+In the context of network management, an ACL may be enforced in many
+   network locations.  As such, the ACL module should allow for binding an
+   ACL to multiple devices, not only (abstract) interfaces.
+
+The ACL name must, thus, be unique at the scale of the network, but the same name may be used in many devices when enforcing node-specific ACLs.
+
+## Partial or Lack of IPv4/IPv6 Fragment Handling {#ps-frag}
+
+{{!RFC8519}} does not support fragment handling for IPv6 but
+offers a partial support for IPv4  through the use of 'flags'.  Nevertheless,
+the use of 'flags' is problematic since it does not allow a bitmask
+to be defined.  For example, setting other bits not covered by the
+'flags' filtering clause in a packet will allow that packet to get
+through (because it won't match the ACE).
+
+Defining a new IPv4/IPv6 matching field called 'fragment' is thus required to efficiently handle fragment-related filtering rules.
+
+## Suboptimal TCP Flags Handling {#ps-flags}
+
+{{!RFC8519}} supports including flags in the TCP match fields, however
+   that structure does not support matching operations as those
+   supported in BGP Flow Spec.  Defining this field to be defined as a
+   flag bitmask together with a set of operations is meant to
+   efficiently handle TCP flags filtering rules.
+
+
+## Rate-Limit Action {#ps-rate}
+
+ {{!RFC8519}} specifies that forwarding actions can be 'accept' (i.e., accept matching
+   traffic), 'drop' (i.e., drop matching traffic without sending any
+   ICMP error message), or 'reject' (i.e., drop matching traffic and send an ICMP error message to the source). However, there are situations where the matching traffic can be accepted, but with a rate-limit policy. This capability is not supported by {{!RFC8519}}.
+
+## Payload-based Filtering {#ps-pf}
+
+Some transport protocols use existing protocols (e.g., TCP or UDP) as substrate. The match criteria for such protocols may rely upon the 'protocol' under 'l3', TCP/UDP match criteria, part of the TCP/UDP payload, or a combination thereof. {{!RFC8519}} does not support matching based on the payload.
+
+Likewise, the current version of the ACL model does not support filtering of encapsulated traffic.
+
+## Reuse the ACLs Content Across Several Devices
+
+Having a global network view of the ACLs is highly valuable for service providers. An ACL could be defined and applied
+based on the network topology hierarchy. So, an ACL can be
+defined at the network level and, then, that same ACL can be used (or referenced to)
+in several devices (including termination points) within the same network.
+
+This network/device ACLs differentiation introduces several new
+requirements, e.g.:
+
+* An ACL name can be used at both network and device levels.
+* An ACL content updated at the network level should imply
+  a transaction that updates the relevant content in all the nodes using this
+  ACL.
+* ACLs defined at the device level have a local meaning for the specific node.
+* A device can be associated with a router, a VRF, a
+  logical system, or a virtual node. ACLs can be applied in physical and
+  logical infrastructure.
+
+## Match MPLS Headers
+
+The ACLs could be used to create rules to match MPLS fields on a packet. {{!RFC8519}} does not support such function.
+
 # Acknowledgements
 
 Many thanks to Jon Shallow and Miguel Cros for the review and comments to the document, including prior to publishing the document.
 
 Thanks to Qiufang Ma, Victor Lopez, and Joe Clarke for the comments and suggestions.
 
-The IANA-maintained model was generated using an XSLT stylesheet from the 'iana-yang' project (https://github.com/llhotka/iana-yang).
+The IANA-maintained models were generated using an XSLT stylesheet from the 'iana-yang' project (https://github.com/llhotka/iana-yang).
 
 This work is partially supported by the European Commission under   Horizon 2020 Secured autonomic traffic management for a Tera of SDN
  flows (Teraflow) project (grant agreement number 101015857).
