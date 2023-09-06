@@ -43,7 +43,7 @@ informative:
               target: https://www.iana.org/assignments/icmp-parameters/icmp-parameters.xhtml
 
    IANA-ICMPv6:
-              title: "ICMPv6 "type" Numbers"
+              title: "ICMPv6 type Numbers"
               target: https://www.iana.org/assignments/icmpv6-parameters/icmpv6-parameters.xhtml
 
 --- abstract
