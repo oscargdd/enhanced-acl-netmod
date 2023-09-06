@@ -33,13 +33,26 @@ author:
     organization: Huawei
     email: bill.wu@huawei.com
 
+informative:
+   IANA-YANG-PARAMETERS:
+              title: "YANG Parameters"
+              target: https://www.iana.org/assignments/yang-parameters
+
+   IANA-ICMPv4:
+              title: "ICMP Type Numbers"
+              target: https://www.iana.org/assignments/icmp-parameters/icmp-parameters.xhtml
+
+   IANA-ICMPv6:
+              title: "ICMPv6 "type" Numbers"
+              target: https://www.iana.org/assignments/icmpv6-parameters/icmpv6-parameters.xhtml
+
 --- abstract
 
 RFC 8519 defines a YANG data model for Access Control Lists
 (ACLs). This document discusses a set of extensions that fix many of
 the limitations of the ACL model as initially defined in RFC 8519.
 
-The document also defines an IANA-maintained module for ICMP types.
+The document also defines IANA-maintained modules for ICMP types.
 
 --- middle
 
@@ -87,7 +100,7 @@ tools such as DDoS mitigation {{?RFC9132}} or BGP Flow Spec {{?RFC8955}}
 messages triggered by  these tools is valuable from a network operation standpoint.
 
 The document also defines IANA-maintained modules for ICMP types. The design of the module adheres with the recommendations
-in {{?I-D.boucadair-netmod-iana-registries}}. The templates to generate the module is available at {{template}} and {{v6-template}}. Readers should refer to the IANA
+in {{?I-D.boucadair-netmod-rfc8407bis}}. The templates to generate the modules is available at {{template}} and {{v6-template}}. Readers should refer to the IANA
 website [REF_TBC] to retrieve the latest version of the modules. The modules are provided in {{iana-icmp}} and {{iana-icmpv6}} for the users convenience, but that appendix will be removed from the final RFC.
 
 # Terminology
@@ -459,7 +472,7 @@ Some of the readable data nodes in this YANG module may be considered sensitive 
 
 # IANA Considerations
 
-## URI Registration
+## URI Registrations
 
    This document requests IANA to register the following URIs in the "ns"
    subregistry within the "IETF XML Registry" {{!RFC3688}}:
@@ -478,7 +491,7 @@ Some of the readable data nodes in this YANG module may be considered sensitive 
          XML: N/A; the requested URI is an XML namespace.
 ~~~
 
-## YANG Module Name Registration
+## YANG Module Name Registrations
 
 This document requests IANA to register the following YANG modules in
    the "YANG Module Names" subregistry {{!RFC6020}} within the "YANG
@@ -491,25 +504,146 @@ This document requests IANA to register the following YANG modules in
          prefix: acl-enh
          reference: RFC XXXX
 
-         name: ietf-icmpv4-types
+         name: iana-icmpv4-types
          namespace: urn:ietf:params:xml:ns:yang:iana-icmpv4-types
          maintained by IANA: Y
          prefix: iana-icmpv4-types
          reference: RFC XXXX
 
-         name: ietf-icmpv6-types
+         name: iana-icmpv6-types
          namespace: urn:ietf:params:xml:ns:yang:iana-icmpv6-types
          maintained by IANA: Y
          prefix: iana-icmpv6-types
          reference: RFC XXXX
 ~~~
 
+## Considerations for IANA-Maintained Modules
+
+### ICMPv4 Types IANA Module
+
+IANA is requested to create and post
+the initial version of the "iana-icmpv4-types" YANG module by
+applying the XSLT stylesheet from {{template}} to the XML version of
+{{IANA-ICMPv4}}.
+
+This document defines the initial version of the IANA-maintained
+"iana-icmpv4-types" YANG module.  The most recent version of the YANG module
+is available from the "YANG Parameters" registry
+{{IANA-YANG-PARAMETERS}}.
+
+IANA is requested to add this note to the registry {{IANA-YANG-PARAMETERS}}:
+
+    New values must not be directly added to the "iana-icmpv4-types" YANG
+    module.  They must instead be added to the "ICMP Type Numbers" registry {{IANA-ICMPv4}}.
+
+When a value is added to the "ICMP Type Numbers" registry, a new "enum" statement
+must be added to the "iana-icmpv4-types" YANG module.  The "enum" statement,
+and sub-statements thereof, should be defined:
+
+"enum":
+: Replicates a name from the registry.
+
+"value":
+: Contains the decimal value of the IANA-assigned value.
+
+"status":
+:      Is included only if a registration has been deprecated
+       or obsoleted.  IANA "deprecated" maps to YANG status
+       "deprecated", and IANA "obsolete" maps to YANG status
+       "obsolete".
+
+"description":
+: Replicates the description from the registry.
+
+"reference":
+:   Replicates the reference(s) from the registry with the
+    title of the document(s) added.
+
+Unassigned or reserved values are not present in the module.
+
+When the "iana-icmpv4-types" YANG module is updated, a new "revision"
+statement with a unique revision date must be added in front of the
+existing revision statements.
+
+IANA is requested to add this note to "ICMP Type Numbers" {{IANA-ICMPv4}}:
+
+    When this registry is modified, the YANG module "iana-icmpv4-types"
+    [IANA_ICMPv4_YANG_URL] must be updated as defined in RFCXXXX.
+
+IANA is requested to updated the "Reference" in the "ICMP Type Numbers" registry
+as follows:
+
+OLD:
+: {{?RFC2780}}
+
+NEW:
+: {{?RFC2780}}[This_Document]
+
+### ICMPv6 Types IANA Module
+
+IANA is requested to create and post
+the initial version of the "iana-icmpv6-types" YANG module by
+applying the XSLT stylesheet from {{v6-template}} to the XML version of
+{{IANA-ICMPv4}}.
+
+This document defines the initial version of the IANA-maintained
+"iana-icmpv6-types" YANG module.  The most recent version of the YANG module
+is available from the "YANG Parameters" registry
+{{IANA-YANG-PARAMETERS}}.
+
+IANA is requested to add this note to the registry {{IANA-YANG-PARAMETERS}}:
+
+    New values must not be directly added to the "iana-icmpv6-types" YANG
+    module.  They must instead be added to the "ICMPv6 "type" Numbers" registry {{IANA-ICMPv6}}.
+
+When a value is added to the "ICMPv6 "type" Numbers" registry, a new "enum" statement
+must be added to the "iana-icmpv6-types" YANG module.  The "enum" statement,
+and sub-statements thereof, should be defined:
+
+"enum":
+: Replicates a name from the registry.
+
+"value":
+: Contains the decimal value of the IANA-assigned value.
+
+"status":
+:      Is included only if a registration has been deprecated
+       or obsoleted.  IANA "deprecated" maps to YANG status
+       "deprecated", and IANA "obsolete" maps to YANG status
+       "obsolete".
+
+"description":
+: Replicates the description from the registry.
+
+"reference":
+:   Replicates the reference(s) from the registry with the
+    title of the document(s) added.
+
+Unassigned or reserved values are not present in the module.
+
+When the "iana-icmpv6-types" YANG module is updated, a new "revision"
+statement with a unique revision date must be added in front of the
+existing revision statements.
+
+IANA is requested to add this note to "ICMPv6 "type" Numbers" {{IANA-ICMPv6}}:
+
+    When this registry is modified, the YANG module "iana-icmpv6-types"
+    [IANA_ICMPv6_YANG_URL] must be updated as defined in RFCXXXX.
+
+IANA is requested to updated the "Reference" in the "ICMPv6 "type" Numbers" registry
+as follows:
+
+OLD:
+: {{?RFC4443}}
+
+NEW:
+: {{?RFC4443}}[This_Document]
 
 --- back
 
 # ICMPv4 Types
 
-## XLTS Template to Generate The ICMPv4 Type IANA-Maintained Module {#template}
+## XSLT Template to Generate The ICMPv4 Types IANA-Maintained Module {#template}
 
 ~~~
 <CODE BEGINS>
@@ -519,7 +653,7 @@ This document requests IANA to register the following YANG modules in
 <CODE ENDS>
 ~~~
 
-## Initial Version of the The ICMPv4 Type IANA-Maintained Module {#iana-icmp}
+## Initial Version of the The ICMPv4 Types IANA-Maintained Module {#iana-icmp}
 
 ~~~
 <CODE BEGINS> file iana-icmpv4-types@2020-09-25.yang
@@ -531,7 +665,7 @@ This document requests IANA to register the following YANG modules in
 
 # ICMPv6 Types
 
-## XLTS Template to Generate The ICMPv6 Type IANA-Maintained Module {#v6-template}
+## XSLT Template to Generate The ICMPv6 Types IANA-Maintained Module {#v6-template}
 
 ~~~
 <CODE BEGINS>
@@ -541,7 +675,7 @@ This document requests IANA to register the following YANG modules in
 <CODE ENDS>
 ~~~
 
-## Initial Version of the The ICMPv4 Type IANA-Maintained Module {#iana-icmpv6}
+## Initial Version of the The ICMPv4 Types IANA-Maintained Module {#iana-icmpv6}
 
 ~~~
 <CODE BEGINS> file iana-icmpv6-types@2020-09-25.yang
