@@ -39,6 +39,7 @@ module: ietf-acl-enh
   +--rw aliases
      +--rw alias* [name]
         +--rw name          string
+        +--rw vlan*         uint16
         +--rw prefix*       inet:ip-prefix
         +--rw port-range* [lower-port]
         |  +--rw lower-port    inet:port-number
@@ -68,15 +69,14 @@ module: ietf-acl-enh
              +--rw ttl-value?           uint8
   augment /acl:acls/acl:acl/acl:aces/acl:ace/acl:matches/acl:l2:
     +--rw vlan-filter {match-on-vlan-filter}?
-       +--rw frame-type?         string
-       +--rw (vlan-type)?
-          +--:(range)
-          |  +--rw lower-vlan    uint16
-          |  +--rw upper-vlan    uint16
-          +--:(operator)
-             +--rw operator?     packet-fields:operator
-             +--rw vlan*         uint16
-  augment /acl:acls/acl:acl/acl:aces/acl:ace/acl:matches/acl:l2:
+    |  +--rw frame-type?         string
+    |  +--rw (vlan-type)?
+    |     +--:(range)
+    |     |  +--rw lower-vlan    uint16
+    |     |  +--rw upper-vlan    uint16
+    |     +--:(operator)
+    |        +--rw operator?     packet-fields:operator
+    |        +--rw vlan*         uint16
     +--rw isid-filter {match-on-isid-filter}?
        +--rw (isid-type)?
           +--:(range)
@@ -118,6 +118,7 @@ module: ietf-acl-enh
     +--rw destination-udp-port-set?   port-set-ref
   augment /acl:acls/acl:acl/acl:aces/acl:ace/acl:matches/acl:l4
             /acl:icmp:
-    +--rw icmp-set?   icmp-type-set-ref
+    +--rw icmpv4-set?   icmpv4-type-set-ref
+    +--rw icmpv6-set?   icmpv6-type-set-ref
   augment /acl:acls/acl:acl/acl:aces/acl:ace/acl:actions:
     +--rw rate-limit?   decimal64
