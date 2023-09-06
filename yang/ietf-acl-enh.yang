@@ -490,6 +490,11 @@ grouping mpls-match-parameters-config {
   grouping alias {
     description
       "Specifies an alias.";
+    leaf-list vlan {
+      type uint16;
+        description
+          "VLAN of the alias.";
+    }
     leaf-list prefix {
       type inet:ip-prefix;
       description
@@ -521,10 +526,6 @@ grouping mpls-match-parameters-config {
       type uint8;
       description
         "Identifies the target protocol number.
-
-         Values are taken from the IANA protocol registry:
-         https://www.iana.org/assignments/protocol-numbers/
-
          For example, 6 for TCP or 17 for UDP.";
     }
     leaf-list fqdn {
@@ -683,7 +684,7 @@ grouping mpls-match-parameters-config {
           leaf-list vlan {
             type uint16;
             description
-              "vlan number along with the operator on which to
+              "VLAN number along with the operator on which to
                match.";
           }
         }
