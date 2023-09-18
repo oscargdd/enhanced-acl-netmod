@@ -606,7 +606,7 @@ grouping mpls-match-parameters-config {
   augment "/acl:acls/acl:acl/acl:aces/acl:ace"
         + "/acl:matches" {
     description
-      "Adds a new match type based on the payload.";
+      "Adds a match type based on the payload.";
     choice payload {
       description
         "Matches based upon a prefix pattern.";
@@ -641,7 +641,7 @@ grouping mpls-match-parameters-config {
   augment "/acl:acls/acl:acl/acl:aces"
         + "/acl:ace/acl:matches/acl:l2" {
     description
-      "Handles the augmentation of MAC VLAN and ISID filters.";
+      "Adds a match type based on MAC VLAN and ISID filters.";
     container vlan-filter {
       if-feature "match-on-vlan-filter";
       description
@@ -704,7 +704,7 @@ grouping mpls-match-parameters-config {
             type uint16;
             must '. <= ../upper-isid' {
               error-message
-                "The lower-vlan must be less than or equal to
+                "The lower-isid must be less than or equal to
                  the upper-isid.";
             }
             mandatory true;
