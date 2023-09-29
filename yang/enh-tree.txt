@@ -29,11 +29,18 @@ module: ietf-acl-enh
   |  |  +--rw protocol-set* [name]
   |  |     +--rw name        string
   |  |     +--rw protocol*   union
-  |  +--rw icmp-type-sets
-  |     +--rw icmp-type-set* [name]
+  |  +--rw icmpv4-type-sets
+  |  |  +--rw icmpv4-type-set* [name]
+  |  |     +--rw name     string
+  |  |     +--rw types* [type]
+  |  |        +--rw type              iana-icmpv4-types:icmpv4-type
+  |  |        +--rw code?             uint8
+  |  |        +--rw rest-of-header?   binary
+  |  +--rw icmpv6-type-sets
+  |     +--rw icmpv6-type-set* [name]
   |        +--rw name     string
   |        +--rw types* [type]
-  |           +--rw type              uint8
+  |           +--rw type              iana-icmpv6-types:icmpv6-type
   |           +--rw code?             uint8
   |           +--rw rest-of-header?   binary
   +--rw aliases
@@ -57,15 +64,16 @@ module: ietf-acl-enh
     |        +--rw operator?     operator
     |        +--rw prefix?       binary
     +--rw (alias)?
-    |  +--rw alias-name*        alias-ref
+    |  +--:(alias-name)
+    |     +--rw alias-name*       alias-ref
     +--rw (mpls)?
        +--:(mpls-values)
           +--rw mpls-values {match-on-mpls}?
              +--rw traffic-class?       uint8
-             +--rw label-position       identityref
-             +--rw upper-label-range?   uint32
-             +--rw lower-label-range?   uint32
-             +--rw label-block-name     string
+             +--rw label-position?      identityref
+             +--rw upper-label-range?   rt-types:mpls-label
+             +--rw lower-label-range?   rt-types:mpls-label
+             +--rw label-block-name?    string
              +--rw ttl-value?           uint8
   augment /acl:acls/acl:acl/acl:aces/acl:ace/acl:matches/acl:l2:
     +--rw vlan-filter {match-on-vlan-filter}?
@@ -85,24 +93,21 @@ module: ietf-acl-enh
           +--:(operator)
              +--rw operator?     packet-fields:operator
              +--rw isid*         uint16
-  augment /acl:acls/acl:acl/acl:aces/acl:ace/acl:matches/acl:l3
-            /acl:ipv4:
+  augment /acl:acls/acl:acl/acl:aces/acl:ace/acl:matches/acl:l3/acl:ipv4:
     +--rw ipv4-fragment
     |  +--rw operator?   operator
     |  +--rw type?       fragment-type
     +--rw source-ipv4-prefix-list?        ipv4-prefix-set-ref
     +--rw destination-ipv4-prefix-list?   ipv4-prefix-set-ref
     +--rw next-header-set?                protocol-set-ref
-  augment /acl:acls/acl:acl/acl:aces/acl:ace/acl:matches/acl:l3
-            /acl:ipv6:
+  augment /acl:acls/acl:acl/acl:aces/acl:ace/acl:matches/acl:l3/acl:ipv6:
     +--rw ipv6-fragment
     |  +--rw operator?   operator
     |  +--rw type?       fragment-type
     +--rw source-ipv6-prefix-list?        ipv6-prefix-set-ref
     +--rw destination-ipv6-prefix-list?   ipv6-prefix-set-ref
     +--rw protocol-set?                   protocol-set-ref
-  augment /acl:acls/acl:acl/acl:aces/acl:ace/acl:matches/acl:l4
-            /acl:tcp:
+  augment /acl:acls/acl:acl/acl:aces/acl:ace/acl:matches/acl:l4/acl:tcp:
     +--rw flags-bitmask
     |  +--rw (mode)?
     |     +--:(explicit)
@@ -112,12 +117,10 @@ module: ietf-acl-enh
     |        +--rw bitmask?             uint16
     +--rw source-tcp-port-set?        port-set-ref
     +--rw destination-tcp-port-set?   port-set-ref
-  augment /acl:acls/acl:acl/acl:aces/acl:ace/acl:matches/acl:l4
-            /acl:udp:
+  augment /acl:acls/acl:acl/acl:aces/acl:ace/acl:matches/acl:l4/acl:udp:
     +--rw source-udp-port-set?        port-set-ref
     +--rw destination-udp-port-set?   port-set-ref
-  augment /acl:acls/acl:acl/acl:aces/acl:ace/acl:matches/acl:l4
-            /acl:icmp:
+  augment /acl:acls/acl:acl/acl:aces/acl:ace/acl:matches/acl:l4/acl:icmp:
     +--rw icmpv4-set?   icmpv4-type-set-ref
     +--rw icmpv6-set?   icmpv6-type-set-ref
   augment /acl:acls/acl:acl/acl:aces/acl:ace/acl:actions:
