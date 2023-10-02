@@ -35,6 +35,11 @@ module ietf-acl-enh {
     reference
       "TBC";
   }
+  import iana-ipv6-ext-types { 
+    prefix iana-ipv6-ext-types;
+    reference
+      "TBC";
+  }
 
   organization
     "IETF NETMOD Working Group";
@@ -789,6 +794,11 @@ grouping mpls-match-parameters-config {
       type protocol-set-ref;
       description
         "A reference to a protocol set to match the protocol field.";
+    }
+    leaf extension-header {
+       type iana-ipv6-ext-types:ipv6-extension-header-type;
+       description
+         "IPv6 extension header value."; 
     }
   }
 
