@@ -17,7 +17,7 @@
 	<apply-templates
 	    select="iana:record[not(iana:description = 'Unassigned' or
 		    starts-with(iana:description, 'Reserved') or 
-                    starts-with(iana:description, 'RFC3692')) or 
+                    starts-with(iana:description, 'Use for experimentation and testing')) or 
                     contains(iana:description, 'experimental')]"/>
       </element>
       <element name="yin:description">

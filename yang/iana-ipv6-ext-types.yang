@@ -116,22 +116,6 @@ module iana-ipv6-ext-types {
         reference
           "RFC 5533";
       }
-      enum Useforexperimentationandtesting {
-        value 253;
-        description
-          "Use for experimentation and testing";
-        reference
-          "- RFC 3692
-           - RFC 4727";
-      }
-      enum Useforexperimentationandtesting {
-        value 254;
-        description
-          "Use for experimentation and testing";
-        reference
-          "- RFC 3692
-           - RFC 4727";
-      }
     }
     description
       "This enumeration type defines mnemonic names and corresponding
