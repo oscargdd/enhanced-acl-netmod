@@ -45,6 +45,10 @@ informative:
    IANA-ICMPv6:
               title: "ICMPv6 type Numbers"
               target: https://www.iana.org/assignments/icmpv6-parameters/icmpv6-parameters.xhtml
+   
+   IANA-IPv6:
+              title: "IPv6 Extension Header Types"
+              target: https://www.iana.org/assignments/ipv6-parameters/ipv6-parameters.xhtml
 
 --- abstract
 
@@ -639,6 +643,67 @@ OLD:
 NEW:
 : {{?RFC4443}}[This_Document]
 
+### IPv6 Extension Header Types IANA Module
+
+IANA is requested to create and post
+the initial version of the "iana-ipv6-ext-header-types" YANG module by
+applying the XSLT stylesheet from {{iana-ipv6-ext-template}} to the XML version of
+{{IANA-IPv6}}.
+
+This document defines the initial version of the IANA-maintained
+"iana-ipv6-ext-header-types" YANG module.  The most recent version of the YANG module
+is available from the "YANG Parameters" registry
+{{IANA-YANG-PARAMETERS}}.
+
+IANA is requested to add this note to the registry {{IANA-YANG-PARAMETERS}}:
+
+    New values must not be directly added to the "iana-ipv6-ext-header-types" YANG
+    module.  They must instead be added to the "IPv6 Extension Header Types" registry {{IANA-ICMPv6}}.
+
+When a value is added to the "IPv6 Extension Header Types" registry, a new "enum" statement
+must be added to the "iana-ipv6-ext-header-types" YANG module.  The "enum" statement,
+and sub-statements thereof, should be defined:
+
+"enum":
+: Replicates a name from the registry.
+
+"value":
+: Contains the decimal value of the IANA-assigned value.
+
+"status":
+:      Is included only if a registration has been deprecated
+       or obsoleted.  IANA "deprecated" maps to YANG status
+       "deprecated", and IANA "obsolete" maps to YANG status
+       "obsolete".
+
+"description":
+: Replicates the description from the registry.
+
+"reference":
+:   Replicates the reference(s) from the registry with the
+    title of the document(s) added.
+
+Unassigned or reserved values are not present in the module.
+
+When the "iana-ipv6-ext-header-types" YANG module is updated, a new "revision"
+statement with a unique revision date must be added in front of the
+existing revision statements.
+
+IANA is requested to add this note to "IPv6 Extension Header Types" registry {{IANA-IPv6}}:
+
+    When this registry is modified, the YANG module "iana-ipv6-ext-header-types"
+    [IANA_IPV6_YANG_URL] must be updated as defined in RFCXXXX.
+
+IANA is requested to updated the "Reference" in the "IPv6 Extension Header Types" registry
+as follows:
+
+OLD:
+: {{?RFC7045}}
+
+NEW:
+: {{?RFC7045}}[This_Document]
+
+
 --- back
 
 # ICMPv4 Types
@@ -681,6 +746,28 @@ NEW:
 <CODE BEGINS> file iana-icmpv6-types@2020-09-25.yang
 
 {::include ./yang/iana-icmpv6-types.yang}
+
+<CODE ENDS>
+~~~
+
+# IPv6 Extension Header Types
+
+## XSLT Template to Generate The IPv6 Extension Header Types IANA-Maintained Module {#iana-ipv6-ext-template}
+
+~~~
+<CODE BEGINS>
+
+{::include-fold ./yang/iana-ipv6-ext-types.xsl}
+
+<CODE ENDS>
+~~~
+
+## Initial Version of the The ICMPv4 Types IANA-Maintained Module {#iana-ipv6-ext}
+
+~~~
+<CODE BEGINS> file iana-ipv6-ext-types@2020-10-02.yang
+
+{::include ./yang/iana-ipv6-ext-types.yang}
 
 <CODE ENDS>
 ~~~
