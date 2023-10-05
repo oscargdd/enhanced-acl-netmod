@@ -698,7 +698,7 @@ IANA is requested to updated the "Reference" in the "IPv6 Extension Header Types
 as follows:
 
 OLD:
-: {{?RFC7045}}
+: {{?RFC2780}}{{?RFC5237}}{{?RFC7045}}
 
 NEW:
 : {{?RFC7045}}[This_Document]
