@@ -45,7 +45,7 @@ informative:
    IANA-ICMPv6:
               title: "ICMPv6 type Numbers"
               target: https://www.iana.org/assignments/icmpv6-parameters/icmpv6-parameters.xhtml
-   
+
    IANA-IPv6:
               title: "IPv6 Extension Header Types"
               target: https://www.iana.org/assignments/ipv6-parameters/ipv6-parameters.xhtml
