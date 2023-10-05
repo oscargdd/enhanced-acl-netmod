@@ -765,7 +765,7 @@ NEW:
 ## Initial Version of the The ICMPv4 Types IANA-Maintained Module {#iana-ipv6-ext}
 
 ~~~
-<CODE BEGINS> file iana-ipv6-ext-types@2020-10-02.yang
+<CODE BEGINS> file iana-ipv6-ext-types@2023-09-29.yang
 
 {::include ./yang/iana-ipv6-ext-types.yang}
 
