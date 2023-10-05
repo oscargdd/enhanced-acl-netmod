@@ -689,7 +689,7 @@ When the "iana-ipv6-ext-header-types" YANG module is updated, a new "revision"
 statement with a unique revision date must be added in front of the
 existing revision statements.
 
-IANA is requested to add this note to "IPv6 Extension Header Types" registry {{IANA-IPv6}}:
+IANA is requested to add this note to the "IPv6 Extension Header Types" registry {{IANA-IPv6}}:
 
     When this registry is modified, the YANG module "iana-ipv6-ext-header-types"
     [IANA_IPV6_YANG_URL] must be updated as defined in RFCXXXX.
